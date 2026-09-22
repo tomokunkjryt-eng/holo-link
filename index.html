@@ -1,0 +1,3151 @@
+<!DOCTYPE html>  
+<html lang="ja">  
+  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width,initial-scale=1">  
+  
+<title>ホロライブJP メンバー一覧</title>  
+  
+<style>  
+  
+*{  
+  box-sizing:border-box;  
+}  
+  
+body{  
+  margin:0;  
+  background:#f4f6fa;  
+  color:#222;  
+  font-family:  
+    Arial,  
+    "Noto Sans JP",  
+    sans-serif;  
+}  
+  
+header{  
+  position:sticky;  
+  top:0;  
+  z-index:50;  
+  background:rgba(255,255,255,.97);  
+  padding:15px 12px;  
+  text-align:center;  
+  box-shadow:0 2px 12px #ccc;  
+}  
+  
+h1{  
+  margin:0 0 13px;  
+  font-size:24px;  
+}  
+  
+/* =========================  
+   検索＋フィルター  
+========================= */  
+  
+.controls{  
+  max-width:700px;  
+  margin:auto;  
+  display:flex;  
+  gap:8px;  
+  align-items:center;  
+}  
+  
+#search{  
+  flex:1;  
+  min-width:0;  
+  padding:11px 13px;  
+  border:1px solid #ccc;  
+  border-radius:11px;  
+  font-size:14px;  
+  outline:none;  
+}  
+  
+#search:focus{  
+  border-color:#1683ff;  
+}  
+  
+.filter-wrap{  
+  position:relative;  
+}  
+  
+#filterButton{  
+  width:110px;  
+  padding:11px 8px;  
+  border:1px solid #ccc;  
+  border-radius:11px;  
+  background:white;  
+  font-size:13px;  
+  cursor:pointer;  
+  white-space:nowrap;  
+}  
+  
+#filterButton:active{  
+  transform:scale(.97);  
+}  
+  
+#filterArea{  
+  display:none;  
+  position:absolute;  
+  right:0;  
+  top:calc(100% + 7px);  
+  width:220px;  
+  max-height:420px;  
+  overflow-y:auto;  
+  padding:8px;  
+  background:white;  
+  border-radius:13px;  
+  box-shadow:0 5px 20px rgba(0,0,0,.2);  
+  z-index:100;  
+}  
+  
+#filterArea.show{  
+  display:block;  
+}  
+  
+.filter-grid{  
+  display:flex;  
+  flex-direction:column;  
+  gap:5px;  
+}  
+  
+.filter{  
+  width:100%;  
+  padding:9px;  
+  border:1px solid #ddd;  
+  border-radius:9px;  
+  background:white;  
+  text-align:left;  
+  cursor:pointer;  
+  font-size:13px;  
+}  
+  
+.filter.active{  
+  background:#1683ff;  
+  color:white;  
+  border-color:#1683ff;  
+}  
+  
+#status{  
+  margin-top:9px;  
+  font-size:12px;  
+  color:#666;  
+}  
+  
+/* =========================  
+   メンバー  
+========================= */  
+  
+#members{  
+  max-width:1250px;  
+  margin:20px auto;  
+  padding:0 12px 40px;  
+  
+  display:grid;  
+  
+  grid-template-columns:  
+    repeat(auto-fill,minmax(190px,1fr));  
+  
+  gap:15px;  
+}  
+  
+.card{  
+  background:white;  
+  border-radius:17px;  
+  padding:12px;  
+  text-align:center;  
+  
+  box-shadow:0 3px 12px #ddd;  
+  
+  transition:.15s;  
+  
+  border:4px solid transparent;  
+  
+  cursor:pointer;  
+}  
+  
+.card:active{  
+  transform:scale(.98);  
+}  
+  
+.card.live{  
+  border-color:#ff2222;  
+}  
+  
+.card.upcoming{  
+  border-color:#1683ff;  
+}  
+  
+.card.live.upcoming{  
+  border-color:#ff2222;  
+  
+  box-shadow:  
+    0 0 0 3px #1683ff,  
+    0 3px 12px #ddd;  
+}  
+  
+.hidden{  
+  display:none!important;  
+}  
+  
+.profile-button{  
+  display:block;  
+  
+  width:120px;  
+  height:120px;  
+  
+  margin:auto;  
+  
+  border:0;  
+  padding:0;  
+  
+  border-radius:50%;  
+  
+  background:none;  
+  
+  position:relative;  
+}  
+  
+.avatar{  
+  width:120px;  
+  height:120px;  
+  
+  border-radius:50%;  
+  
+  object-fit:cover;  
+  
+  border:4px solid transparent;  
+  
+  background:#eee;  
+}  
+  
+.avatar.live{  
+  border-color:#ff2222;  
+}  
+  
+.avatar.upcoming{  
+  border-color:#1683ff;  
+}  
+  
+.status-badge{  
+  position:absolute;  
+  
+  left:50%;  
+  bottom:-3px;  
+  
+  transform:translateX(-50%);  
+  
+  padding:3px 8px;  
+  
+  border-radius:999px;  
+  
+  color:white;  
+  
+  font-size:10px;  
+  font-weight:bold;  
+  
+  white-space:nowrap;  
+}  
+  
+.status-badge.live{  
+  background:#f22;  
+}  
+  
+.status-badge.upcoming{  
+  background:#1683ff;  
+}  
+  
+.name{  
+  margin-top:10px;  
+  font-size:16px;  
+  font-weight:bold;  
+}  
+  
+.group{  
+  margin-top:3px;  
+  font-size:12px;  
+  color:#666;  
+}  
+  
+.date{  
+  margin-top:4px;  
+  font-size:11px;  
+  color:#999;  
+}  
+  
+.socials{  
+  display:flex;  
+  justify-content:center;  
+  gap:9px;  
+  margin-top:11px;  
+}  
+  
+.social{  
+  width:40px;  
+  height:40px;  
+  
+  border-radius:50%;  
+  
+  overflow:hidden;  
+  
+  background:#eee;  
+  
+  display:block;  
+}  
+  
+.social img{  
+  width:100%;  
+  height:100%;  
+  object-fit:cover;  
+}  
+  
+.live-mini{  
+  margin-top:8px;  
+  font-size:10px;  
+  color:#f22;  
+  font-weight:bold;  
+}  
+  
+.upcoming-mini{  
+  margin-top:4px;  
+  font-size:10px;  
+  color:#1683ff;  
+  font-weight:bold;  
+}  
+  
+/* =========================  
+   最新楽曲ボタン  
+========================= */  
+  
+.song-button{  
+  display:block;  
+  
+  width:100%;  
+  
+  margin-top:9px;  
+  
+  padding:9px 7px;  
+  
+  border-radius:9px;  
+  
+  background:#f0f2f5;  
+  
+  color:#333;  
+  
+  text-decoration:none;  
+  
+  font-size:11px;  
+  
+  transition:.15s;  
+}  
+  
+.song-button:hover{  
+  background:#ddd;  
+}  
+  
+.song-button.waiting{  
+  color:#777;  
+  cursor:default;  
+}  
+  
+/* =========================  
+   モーダル  
+========================= */  
+  
+#modalBg{  
+  display:none;  
+  
+  position:fixed;  
+  
+  inset:0;  
+  
+  z-index:100;  
+  
+  background:rgba(0,0,0,.6);  
+  
+  padding:15px;  
+  
+  overflow:auto;  
+}  
+  
+#modalBg.show{  
+  display:flex;  
+  
+  align-items:center;  
+  justify-content:center;  
+}  
+  
+#modal{  
+  width:min(600px,100%);  
+  
+  max-height:92vh;  
+  
+  overflow:auto;  
+  
+  background:white;  
+  
+  border-radius:20px;  
+  
+  padding:20px;  
+  
+  position:relative;  
+}  
+  
+#closeModal{  
+  position:absolute;  
+  
+  right:12px;  
+  top:7px;  
+  
+  width:38px;  
+  height:38px;  
+  
+  border:0;  
+  
+  background:#eee;  
+  
+  border-radius:50%;  
+  
+  font-size:24px;  
+  
+  cursor:pointer;  
+}  
+  
+#modalAvatar{  
+  width:110px;  
+  height:110px;  
+  
+  border-radius:50%;  
+  
+  object-fit:cover;  
+  
+  display:block;  
+  
+  margin:5px auto 10px;  
+}  
+  
+#modalTitle{  
+  text-align:center;  
+  
+  font-size:21px;  
+  
+  margin:5px 40px 2px;  
+}  
+  
+#modalGroup{  
+  text-align:center;  
+  
+  color:#777;  
+  
+  font-size:12px;  
+}  
+  
+.section{  
+  margin-top:17px;  
+  
+  padding:13px;  
+  
+  background:#f4f5f7;  
+  
+  border-radius:13px;  
+}  
+  
+.section-title{  
+  font-weight:bold;  
+  
+  font-size:14px;  
+  
+  margin-bottom:9px;  
+}  
+  
+.video{  
+  display:block;  
+  
+  text-decoration:none;  
+  
+  color:#222;  
+  
+  background:white;  
+  
+  border-radius:11px;  
+  
+  overflow:hidden;  
+  
+  margin-top:8px;  
+  
+  box-shadow:0 2px 7px #ddd;  
+}  
+  
+.video img{  
+  display:block;  
+  
+  width:100%;  
+  
+  aspect-ratio:16/9;  
+  
+  object-fit:cover;  
+  
+  background:#ddd;  
+}  
+  
+.video-text{  
+  padding:9px;  
+  
+  font-size:12px;  
+}  
+  
+.video-time{  
+  color:#888;  
+  
+  font-size:10px;  
+  
+  margin-top:3px;  
+}  
+  
+.live-link{  
+  display:block;  
+  
+  text-decoration:none;  
+  
+  background:#fff;  
+  
+  border-radius:11px;  
+  
+  padding:11px;  
+  
+  margin-top:7px;  
+  
+  color:#222;  
+  
+  box-shadow:0 2px 7px #ddd;  
+}  
+  
+.live-link.red{  
+  border-left:5px solid #f22;  
+}  
+  
+.live-link.blue{  
+  border-left:5px solid #1683ff;  
+}  
+  
+.none{  
+  color:#999;  
+  
+  font-size:12px;  
+}  
+  
+@media(max-width:600px){  
+  
+  h1{  
+    font-size:21px;  
+  }  
+  
+  #members{  
+    grid-template-columns:repeat(2,1fr);  
+    gap:9px;  
+    padding:0 7px 30px;  
+  }  
+  
+  .card{  
+    padding:10px 5px;  
+    border-radius:14px;  
+  }  
+  
+  .profile-button{  
+    width:85px;  
+    height:85px;  
+  }  
+  
+  .avatar{  
+    width:85px;  
+    height:85px;  
+    border-width:3px;  
+  }  
+  
+  .name{  
+    font-size:14px;  
+    line-height:1.3;  
+  }  
+  
+  .group{  
+    font-size:10px;  
+  }  
+  
+  .date{  
+    font-size:9px;  
+  }  
+  
+  .social{  
+    width:32px;  
+    height:32px;  
+  }  
+  
+  #filterButton{  
+    width:100px;  
+  }  
+  
+  #filterArea{  
+    width:190px;  
+  }  
+  
+}  
+  
+</style>  
+</head>  
+  
+<body>  
+  
+<header>  
+  
+<h1>ホロライブJP メンバー</h1>  
+  
+<div class="controls">  
+  
+<input  
+  id="search"  
+  type="search"  
+  placeholder="名前を検索"  
+  autocomplete="off"  
+>  
+  
+<div class="filter-wrap">  
+  
+<button  
+  id="filterButton"  
+  type="button"  
+>  
+📂 フィルター  
+</button>  
+  
+<div id="filterArea">  
+  
+<div class="filter-grid">  
+  
+<button class="filter active" data-group="all">  
+すべて  
+</button>  
+  
+<button class="filter" data-group="0期生">  
+0期生  
+</button>  
+  
+<button class="filter" data-group="1期生">  
+1期生  
+</button>  
+  
+<button class="filter" data-group="2期生">  
+2期生  
+</button>  
+  
+<button class="filter" data-group="ゲーマーズ">  
+ゲーマーズ  
+</button>  
+  
+<button class="filter" data-group="3期生">  
+3期生  
+</button>  
+  
+<button class="filter" data-group="4期生">  
+4期生  
+</button>  
+  
+<button class="filter" data-group="5期生">  
+5期生  
+</button>  
+  
+<button class="filter" data-group="holoX">  
+holoX  
+</button>  
+  
+<button class="filter" data-group="ReGLOSS">  
+ReGLOSS  
+</button>  
+  
+<button class="filter" data-group="FLOW GLOW">  
+FLOW GLOW  
+</button>  
+  
+<button class="filter" data-group="アソビ★まわり隊！">  
+アソビ★まわり隊！  
+</button>  
+  
+</div>  
+</div>  
+</div>  
+  
+</div>  
+  
+<div id="status">  
+読み込み中…  
+</div>  
+  
+</header>  
+  
+<main id="members"></main>  
+  
+  
+<div id="modalBg">  
+  
+<div id="modal">  
+  
+<button  
+  id="closeModal"  
+  type="button"  
+>  
+×  
+</button>  
+  
+<img id="modalAvatar">  
+  
+<h2 id="modalTitle"></h2>  
+  
+<div id="modalGroup"></div>  
+  
+<div id="modalContent"></div>  
+  
+</div>  
+  
+</div>  
+  
+  
+<script>  
+  
+/* =====================================================  
+   Worker  
+===================================================== */  
+  
+const WORKER_URL =  
+"https://hololive-api.tomokun-kjryt.workers.dev/api";  
+  
+  
+/* =====================================================  
+   メンバー  
+===================================================== */  
+  
+const members=[  
+  
+{  
+name:"ときのそら",  
+groups:["0期生"],  
+date:"2017年9月7日",  
+youtube:"TokinoSora",  
+x:"tokino_sora",  
+image:"tokino_sora.jpg",  
+youtubeURL:"https://www.youtube.com/@TokinoSora",  
+xURL:"https://x.com/tokino_sora"  
+},  
+  
+{  
+name:"ロボ子さん",  
+groups:["0期生"],  
+date:"2018年3月4日",  
+youtube:"Robocosan",  
+x:"robocosan",  
+image:"robocosan.jpg",  
+youtubeURL:"https://www.youtube.com/@Robocosan",  
+xURL:"https://x.com/robocosan"  
+},  
+  
+{  
+name:"星街すいせい",  
+groups:["0期生"],  
+date:"2018年3月22日",  
+youtube:"HoshimachiSuisei",  
+x:"suisei_hosimati",  
+image:"hoshimachi_suisei.jpg",  
+youtubeURL:"https://www.youtube.com/@HoshimachiSuisei",  
+xURL:"https://x.com/suisei_hosimati"  
+},  
+  
+{  
+name:"アキ・ローゼンタール",  
+groups:["1期生"],  
+date:"2018年6月1日",  
+youtube:"AkiRosenthal",  
+x:"akirosenthal",  
+image:"aki_rosenthal.jpg",  
+youtubeURL:"https://www.youtube.com/@AkiRosenthal",  
+xURL:"https://x.com/akirosenthal"  
+},  
+  
+{  
+name:"白上フブキ",  
+groups:["1期生","ゲーマーズ"],  
+date:"2018年6月1日",  
+youtube:"ShirakamiFubuki",  
+x:"shirakamifubuki",  
+image:"shirakami_fubuki.jpg",  
+youtubeURL:"https://www.youtube.com/@ShirakamiFubuki",  
+xURL:"https://x.com/shirakamifubuki"  
+},  
+  
+{  
+name:"夏色まつり",  
+groups:["1期生"],  
+date:"2018年6月1日",  
+youtube:"NatsuiroMatsuri",  
+x:"natsuiromatsuri",  
+image:"natsuiro_matsuri.jpg",  
+youtubeURL:"https://www.youtube.com/@NatsuiroMatsuri",  
+xURL:"https://x.com/natsuiromatsuri"  
+},  
+  
+{  
+name:"赤井はあと",  
+groups:["1期生"],  
+date:"2018年6月2日",  
+youtube:"AkaiHaato",  
+x:"akaihaato",  
+image:"akai_haato.jpg",  
+youtubeURL:"https://www.youtube.com/@AkaiHaato",  
+xURL:"https://x.com/akaihaato"  
+},  
+  
+{  
+name:"さくらみこ",  
+groups:["0期生"],  
+date:"2018年8月1日",  
+youtube:"SakuraMiko",  
+x:"sakuramiko_35",  
+image:"sakura_miko.jpg",  
+youtubeURL:"https://www.youtube.com/@SakuraMiko",  
+xURL:"https://x.com/sakuramiko_35"  
+},  
+  
+{  
+name:"癒月ちょこ",  
+groups:["2期生"],  
+date:"2018年9月4日",  
+youtube:"YuzukiChoco",  
+x:"yuzukichococh",  
+image:"yuzuki_choco.jpg",  
+youtubeURL:"https://www.youtube.com/@YuzukiChoco",  
+xURL:"https://x.com/yuzukichococh"  
+},  
+  
+{  
+name:"百鬼あやめ",  
+groups:["2期生"],  
+date:"2018年9月13日",  
+youtube:"NakiriAyame",  
+x:"nakiriayame",  
+image:"nakiri_ayame.jpg",  
+youtubeURL:"https://www.youtube.com/@NakiriAyame",  
+xURL:"https://x.com/nakiriayame"  
+},  
+  
+{  
+name:"大空スバル",  
+groups:["2期生"],  
+date:"2018年9月16日",  
+youtube:"OozoraSubaru",  
+x:"oozorasubaru",  
+image:"oozora_subaru.jpg",  
+youtubeURL:"https://www.youtube.com/@OozoraSubaru",  
+xURL:"https://x.com/oozorasubaru"  
+},  
+  
+{  
+name:"AZKi",  
+groups:["0期生"],  
+date:"2018年11月15日",  
+youtube:"AZKi",  
+x:"AZKi_VDiVA",  
+image:"azki.jpg",  
+youtubeURL:"https://www.youtube.com/@AZKi",  
+xURL:"https://x.com/AZKi_VDiVA"  
+},  
+  
+{  
+name:"大神ミオ",  
+groups:["ゲーマーズ"],  
+date:"2018年12月1日",  
+youtube:"OokamiMio",  
+x:"ookamimio",  
+image:"ookami_mio.jpg",  
+youtubeURL:"https://www.youtube.com/@OokamiMio",  
+xURL:"https://x.com/ookamimio"  
+},  
+  
+{  
+name:"猫又おかゆ",  
+groups:["ゲーマーズ"],  
+date:"2019年4月6日",  
+youtube:"NekomataOkayu",  
+x:"nekomataokayu",  
+image:"nekomata_okayu.jpg",  
+youtubeURL:"https://www.youtube.com/@NekomataOkayu",  
+xURL:"https://x.com/nekomataokayu"  
+},  
+  
+{  
+name:"戌神ころね",  
+groups:["ゲーマーズ"],  
+date:"2019年4月13日",  
+youtube:"InugamiKorone",  
+x:"inugamikorone",  
+image:"inugami_korone.jpg",  
+youtubeURL:"https://www.youtube.com/@InugamiKorone",  
+xURL:"https://x.com/inugamikorone"  
+},  
+  
+{  
+name:"兎田ぺこら",  
+groups:["3期生"],  
+date:"2019年7月17日",  
+youtube:"usadapekora",  
+x:"usadapekora",  
+image:"usada_pekora.jpg",  
+youtubeURL:"https://www.youtube.com/@usadapekora",  
+xURL:"https://x.com/usadapekora"  
+},  
+  
+{  
+name:"不知火フレア",  
+groups:["3期生"],  
+date:"2019年8月7日",  
+youtube:"ShiranuiFlare",  
+x:"shiranuiflare",  
+image:"shiranui_flare.jpg",  
+youtubeURL:"https://www.youtube.com/@ShiranuiFlare",  
+xURL:"https://x.com/shiranuiflare"  
+},  
+  
+{  
+name:"白銀ノエル",  
+groups:["3期生"],  
+date:"2019年8月8日",  
+youtube:"ShiroganeNoel",  
+x:"shiroganenoel",  
+image:"shirogane_noel.jpg",  
+youtubeURL:"https://www.youtube.com/@ShiroganeNoel",  
+xURL:"https://x.com/shiroganenoel"  
+},  
+  
+{  
+name:"宝鐘マリン",  
+groups:["3期生"],  
+date:"2019年8月11日",  
+youtube:"HoushouMarine",  
+x:"houshoumarine",  
+image:"houshou_marine.jpg",  
+youtubeURL:"https://www.youtube.com/@HoushouMarine",  
+xURL:"https://x.com/houshoumarine"  
+},  
+  
+{  
+name:"角巻わため",  
+groups:["4期生"],  
+date:"2019年12月29日",  
+youtube:"TsunomakiWatame",  
+x:"tsunomakiwatame",  
+image:"tsunomaki_watame.jpg",  
+youtubeURL:"https://www.youtube.com/@TsunomakiWatame",  
+xURL:"https://x.com/tsunomakiwatame"  
+},  
+  
+{  
+name:"常闇トワ",  
+groups:["4期生"],  
+date:"2020年1月3日",  
+youtube:"TokoyamiTowa",  
+x:"tokoyamitowa",  
+image:"tokoyami_towa.jpg",  
+youtubeURL:"https://www.youtube.com/@TokoyamiTowa",  
+xURL:"https://x.com/tokoyamitowa"  
+},  
+  
+{  
+name:"姫森ルーナ",  
+groups:["4期生"],  
+date:"2020年1月4日",  
+youtube:"HimemoriLuna",  
+x:"himemoriluna",  
+image:"himemori_luna.jpg",  
+youtubeURL:"https://www.youtube.com/@HimemoriLuna",  
+xURL:"https://x.com/himemoriluna"  
+},  
+  
+{  
+name:"雪花ラミィ",  
+groups:["5期生"],  
+date:"2020年8月12日",  
+youtube:"YukihanaLamy",  
+x:"yukihanalamy",  
+image:"yukihana_lamy.jpg",  
+youtubeURL:"https://www.youtube.com/@YukihanaLamy",  
+xURL:"https://x.com/yukihanalamy"  
+},  
+  
+{  
+name:"桃鈴ねね",  
+groups:["5期生"],  
+date:"2020年8月13日",  
+youtube:"MomosuzuNene",  
+x:"momosuzunene",  
+image:"momosuzu_nene.jpg",  
+youtubeURL:"https://www.youtube.com/@MomosuzuNene",  
+xURL:"https://x.com/momosuzunene"  
+},  
+  
+{  
+name:"獅白ぼたん",  
+groups:["5期生"],  
+date:"2020年8月14日",  
+youtube:"ShishiroBotan",  
+x:"shishirobotan",  
+image:"shishiro_botan.jpg",  
+youtubeURL:"https://www.youtube.com/@ShishiroBotan",  
+xURL:"https://x.com/shishirobotan"  
+},  
+  
+{  
+name:"尾丸ポルカ",  
+groups:["5期生"],  
+date:"2020年8月16日",  
+youtube:"OmaruPolka",  
+x:"omarupolka",  
+image:"omaru_polka.jpg",  
+youtubeURL:"https://www.youtube.com/@OmaruPolka",  
+xURL:"https://x.com/omarupolka"  
+},  
+  
+{  
+name:"ラプラス・ダークネス",  
+groups:["holoX"],  
+date:"2021年11月26日",  
+youtube:"LaplusDarknesss",  
+x:"LaplusDarknesss",  
+image:"laplus_darkness.jpg",  
+youtubeURL:"https://www.youtube.com/@LaplusDarknesss",  
+xURL:"https://x.com/LaplusDarknesss"  
+},  
+  
+{  
+name:"鷹嶺ルイ",  
+groups:["holoX"],  
+date:"2021年11月27日",  
+youtube:"TakaneLui",  
+x:"takanelui",  
+image:"takane_lui.jpg",  
+youtubeURL:"https://www.youtube.com/@TakaneLui",  
+xURL:"https://x.com/takanelui"  
+},  
+  
+{  
+name:"博衣こより",  
+groups:["holoX"],  
+date:"2021年11月28日",  
+youtube:"HakuiKoyori",  
+x:"hakuikoyori",  
+image:"hakui_koyori.jpg",  
+youtubeURL:"https://www.youtube.com/@HakuiKoyori",  
+xURL:"https://x.com/hakuikoyori"  
+},  
+  
+{  
+name:"風真いろは",  
+groups:["holoX"],  
+date:"2021年11月30日",  
+youtube:"KazamaIroha",  
+x:"kazama_iroha",  
+image:"kazama_iroha.jpg",  
+youtubeURL:"https://www.youtube.com/@KazamaIroha",  
+xURL:"https://x.com/kazama_iroha"  
+},  
+  
+{  
+name:"音乃瀬奏",  
+groups:["ReGLOSS"],  
+date:"2023年9月9日",  
+youtube:"OtonoseKanade",  
+x:"otonosekanade",  
+image:"otonose_kanade.jpg",  
+youtubeURL:"https://www.youtube.com/@OtonoseKanade",  
+xURL:"https://x.com/otonosekanade"  
+},  
+  
+{  
+name:"一条莉々華",  
+groups:["ReGLOSS"],  
+date:"2023年9月9日",  
+youtube:"IchijouRirika",  
+x:"ichijouririka",  
+image:"ichijou_ririka.jpg",  
+youtubeURL:"https://www.youtube.com/@IchijouRirika",  
+xURL:"https://x.com/ichijouririka"  
+},  
+  
+{  
+name:"儒烏風亭らでん",  
+groups:["ReGLOSS"],  
+date:"2023年9月10日",  
+youtube:"JuufuuteiRaden",  
+x:"juufuuteiraden",  
+image:"juufuutei_raden.jpg",  
+youtubeURL:"https://www.youtube.com/@JuufuuteiRaden",  
+xURL:"https://x.com/juufuuteiraden"  
+},  
+  
+{  
+name:"轟はじめ",  
+groups:["ReGLOSS"],  
+date:"2023年9月10日",  
+youtube:"TodorokiHajime",  
+x:"todoroki_hajime",  
+image:"todoroki_hajime.jpg",  
+youtubeURL:"https://www.youtube.com/@TodorokiHajime",  
+xURL:"https://x.com/todoroki_hajime"  
+},  
+  
+{  
+name:"響咲リオナ",  
+groups:["FLOW GLOW"],  
+date:"2024年11月9日",  
+youtube:"IsakiRiona",  
+x:"IsakiRiona",  
+image:"isaki_riona.jpg",  
+youtubeURL:"https://www.youtube.com/@IsakiRiona",  
+xURL:"https://x.com/IsakiRiona"  
+},  
+  
+{  
+name:"虎金妃笑虎",  
+groups:["FLOW GLOW"],  
+date:"2024年11月9日",  
+youtube:"KoganeiNiko",  
+x:"KoganeiNiko",  
+image:"koganei_niko.jpg",  
+youtubeURL:"https://www.youtube.com/@KoganeiNiko",  
+xURL:"https://x.com/KoganeiNiko"  
+},  
+  
+{  
+name:"水宮枢",  
+groups:["FLOW GLOW"],  
+date:"2024年11月9日",  
+youtube:"MizumiyaSu",  
+x:"Mizumiya_Su",  
+image:"mizumiya_su.jpg",  
+youtubeURL:"https://www.youtube.com/@MizumiyaSu",  
+xURL:"https://x.com/Mizumiya_Su"  
+},  
+  
+{  
+name:"輪堂千速",  
+groups:["FLOW GLOW"],  
+date:"2024年11月9日",  
+youtube:"RindoChihaya",  
+x:"RindoChihaya",  
+image:"rindo_chihaya.jpg",  
+youtubeURL:"https://www.youtube.com/@RindoChihaya",  
+xURL:"https://x.com/RindoChihaya"  
+},  
+  
+{  
+name:"綺々羅々ヴィヴィ",  
+groups:["FLOW GLOW"],  
+date:"2024年11月9日",  
+youtube:"KikiraraVivi",  
+x:"kikiraravivi",  
+image:"kikirara_vivi.jpg",  
+youtubeURL:"https://www.youtube.com/@KikiraraVivi",  
+xURL:"https://x.com/kikiraravivi"  
+},  
+  
+/* =========================  
+   アソビ★まわり隊！  
+========================= */  
+  
+{  
+name:"熱千めら",  
+groups:["アソビ★まわり隊！"],  
+date:"2026年9月24日",  
+youtube:"AchichiMela",  
+x:"achichi_mela",  
+image:"achichi_mela.jpg",  
+youtubeURL:"https://www.youtube.com/@AchichiMela",  
+xURL:"https://x.com/achichi_mela"  
+},  
+  
+{  
+name:"宙科そぴあ",  
+groups:["アソビ★まわり隊！"],  
+date:"2026年9月24日",  
+youtube:"SorashinaSopia",  
+x:"sorashina_sopia",  
+image:"sorashina_sopia.jpg",  
+youtubeURL:"https://www.youtube.com/@SorashinaSopia",  
+xURL:"https://x.com/sorashina_sopia"  
+},  
+  
+{  
+name:"百灯キョーコ",  
+groups:["アソビ★まわり隊！"],  
+date:"2026年9月25日",  
+youtube:"HyakutoKyoko",  
+x:"hyakuto_kyoko",  
+image:"hyakuto_kyoko.jpg",  
+youtubeURL:"https://www.youtube.com/@HyakutoKyoko",  
+xURL:"https://x.com/hyakuto_kyoko"  
+},  
+  
+{  
+name:"鈴鳴つづり",  
+groups:["アソビ★まわり隊！"],  
+date:"2026年9月25日",  
+youtube:"SuzunaTsuzuri",  
+x:"suzuna_tsuzuri",  
+image:"suzuna_tsuzuri.jpg",  
+youtubeURL:"https://www.youtube.com/@SuzunaTsuzuri",  
+xURL:"https://x.com/suzuna_tsuzuri"  
+}  
+  
+];  
+  
+  
+/* =====================================================  
+   内部情報  
+===================================================== */  
+  
+members.forEach(function(m){  
+  
+  m.info={  
+    channelId:null,  
+  
+    avatar:null,  
+  
+    isLive:false,  
+    isUpcoming:false,  
+  
+    liveURL:null,  
+    upcomingURL:null,  
+  
+    liveTitle:null,  
+    upcomingTitle:null,  
+  
+    liveStartTime:null,  
+    upcomingStartTime:null,  
+  
+    liveThumb:null,  
+    upcomingThumb:null,  
+  
+    latest:[],  
+  
+    latestSong:null  
+  };  
+  
+});  
+  
+  
+/* =====================================================  
+   要素  
+===================================================== */  
+  
+const membersBox=  
+document.getElementById("members");  
+  
+const statusBox=  
+document.getElementById("status");  
+  
+const searchBox=  
+document.getElementById("search");  
+  
+const filterButton=  
+document.getElementById("filterButton");  
+  
+const filterArea=  
+document.getElementById("filterArea");  
+  
+const modalBg=  
+document.getElementById("modalBg");  
+  
+const modalTitle=  
+document.getElementById("modalTitle");  
+  
+const modalGroup=  
+document.getElementById("modalGroup");  
+  
+const modalAvatar=  
+document.getElementById("modalAvatar");  
+  
+const modalContent=  
+document.getElementById("modalContent");  
+  
+  
+/* =====================================================  
+   フォールバック画像  
+===================================================== */  
+  
+const fallbackAvatar=  
+"data:image/svg+xml;charset=UTF-8,"+  
+encodeURIComponent(`  
+<svg xmlns="http://www.w3.org/2000/svg"  
+width="300"  
+height="300">  
+  
+<rect  
+width="100%"  
+height="100%"  
+fill="#eee"  
+/>  
+  
+<text  
+x="50%"  
+y="50%"  
+text-anchor="middle"  
+dominant-baseline="middle"  
+font-size="25"  
+fill="#777"  
+>  
+YouTube  
+</text>  
+  
+</svg>  
+`);  
+  
+  
+/* =====================================================  
+   画像  
+===================================================== */  
+  
+function localImage(m){  
+  
+  return "images/"+m.image;  
+  
+}  
+  
+  
+function setImage(img,url){  
+  
+  img.onerror=function(){  
+  
+    img.onerror=null;  
+  
+    img.src=fallbackAvatar;  
+  
+  };  
+  
+  img.src=url;  
+  
+}  
+  
+  
+/* =====================================================  
+   カード作成  
+===================================================== */  
+  
+function createCard(m,index){  
+  
+  const card=  
+  document.createElement("article");  
+  
+  card.className="card";  
+  
+  card.dataset.index=index;  
+  
+  card.dataset.name=  
+    m.name.toLowerCase();  
+  
+  card.dataset.groups=  
+    m.groups.join("|");  
+  
+  
+  card.addEventListener(  
+    "click",  
+    function(e){  
+  
+      if(  
+        e.target.closest(".social") ||  
+        e.target.closest(".song-button")  
+      ){  
+  
+        return;  
+  
+      }  
+  
+      openMember(index);  
+  
+    }  
+  );  
+  
+  
+  const profile=  
+  document.createElement("div");  
+  
+  profile.className=  
+    "profile-button";  
+  
+  
+  const avatar=  
+  document.createElement("img");  
+  
+  avatar.className="avatar";  
+  
+  avatar.id=  
+    "avatar-"+index;  
+  
+  avatar.alt=  
+    m.name;  
+  
+  setImage(  
+    avatar,  
+    localImage(m)  
+  );  
+  
+  
+  const badge=  
+  document.createElement("span");  
+  
+  badge.className=  
+    "status-badge";  
+  
+  badge.id=  
+    "badge-"+index;  
+  
+  
+  profile.appendChild(avatar);  
+  profile.appendChild(badge);  
+  
+  
+  const name=  
+  document.createElement("div");  
+  
+  name.className="name";  
+  
+  name.textContent=  
+    m.name;  
+  
+  
+  const group=  
+  document.createElement("div");  
+  
+  group.className="group";  
+  
+  group.textContent=  
+    m.groups.join("　");  
+  
+  
+  const date=  
+  document.createElement("div");  
+  
+  date.className="date";  
+  
+  date.textContent=  
+    "デビュー："+m.date;  
+  
+  
+  const socials=  
+  document.createElement("div");  
+  
+  socials.className="socials";  
+  
+  
+  const yt=  
+  document.createElement("a");  
+  
+  yt.className="social";  
+  
+  yt.href=  
+    m.youtubeURL;  
+  
+  yt.target="_blank";  
+  
+  yt.rel="noopener";  
+  
+  
+  const ytImg=  
+  document.createElement("img");  
+  
+  ytImg.alt="YouTube";  
+  
+  setImage(  
+    ytImg,  
+    localImage(m)  
+  );  
+  
+  yt.appendChild(ytImg);  
+  
+  
+  const x=  
+  document.createElement("a");  
+  
+  x.className="social";  
+  
+  x.href=  
+    m.xURL;  
+  
+  x.target="_blank";  
+  
+  x.rel="noopener";  
+  
+  
+  const xImg=  
+  document.createElement("img");  
+  
+  xImg.alt="X";  
+  
+  setImage(  
+    xImg,  
+    "https://unavatar.io/x/"+m.x  
+  );  
+  
+  x.appendChild(xImg);  
+  
+  
+  socials.appendChild(yt);  
+  socials.appendChild(x);  
+  
+  
+  const song=  
+  document.createElement("a");  
+  
+  song.className="song-button";  
+  
+  song.id=  
+    "song-"+index;  
+  
+  song.textContent=  
+    "🎵 最新の楽曲を読み込み中…";  
+  
+  
+  song.addEventListener(  
+    "click",  
+    function(e){  
+  
+      e.stopPropagation();  
+  
+    }  
+  );  
+  
+  
+  const liveMini=  
+  document.createElement("div");  
+  
+  liveMini.className="live-mini";  
+  
+  liveMini.id=  
+    "live-mini-"+index;  
+  
+  
+  const upcomingMini=  
+  document.createElement("div");  
+  
+  upcomingMini.className=  
+    "upcoming-mini";  
+  
+  upcomingMini.id=  
+    "upcoming-mini-"+index;  
+  
+  
+  card.appendChild(profile);  
+  card.appendChild(name);  
+  card.appendChild(group);  
+  card.appendChild(date);  
+  card.appendChild(socials);  
+  card.appendChild(song);  
+  card.appendChild(liveMini);  
+  card.appendChild(upcomingMini);  
+  
+  membersBox.appendChild(card);  
+  
+}  
+  
+  
+members.forEach(createCard);  
+  
+  
+/* =====================================================  
+   フィルター  
+===================================================== */  
+  
+let selectedGroup="all";  
+  
+  
+function applyFilter(){  
+  
+  const query=  
+    searchBox.value  
+    .trim()  
+    .toLowerCase();  
+  
+  
+  document  
+  .querySelectorAll(".card")  
+  .forEach(function(card){  
+  
+    const name=  
+      card.dataset.name;  
+  
+  
+    const groups=  
+      card.dataset.groups.split("|");  
+  
+  
+    const nameOK=  
+      name.includes(query);  
+  
+  
+    const groupOK=  
+      selectedGroup==="all" ||  
+      groups.includes(selectedGroup);  
+  
+  
+    card.classList.toggle(  
+      "hidden",  
+      !(nameOK && groupOK)  
+    );  
+  
+  });  
+  
+}  
+  
+  
+searchBox.addEventListener(  
+  "input",  
+  applyFilter  
+);  
+  
+  
+/*  
+  フィルターボタン  
+*/  
+  
+filterButton.addEventListener(  
+  "click",  
+  function(e){  
+  
+    e.stopPropagation();  
+  
+    filterArea.classList.toggle(  
+      "show"  
+    );  
+  
+  }  
+);  
+  
+  
+/*  
+  フィルター選択  
+*/  
+  
+document  
+.querySelectorAll(".filter")  
+.forEach(function(button){  
+  
+  button.addEventListener(  
+    "click",  
+    function(e){  
+  
+      e.stopPropagation();  
+  
+      selectedGroup=  
+        button.dataset.group;  
+  
+  
+      document  
+      .querySelectorAll(".filter")  
+      .forEach(function(x){  
+  
+        x.classList.remove(  
+          "active"  
+        );  
+  
+      });  
+  
+  
+      button.classList.add(  
+        "active"  
+      );  
+  
+  
+      filterButton.textContent=  
+        selectedGroup==="all"  
+        ?  
+        "📂 フィルター"  
+        :  
+        "📂 "+selectedGroup;  
+  
+  
+      filterArea.classList.remove(  
+        "show"  
+      );  
+  
+  
+      applyFilter();  
+  
+    }  
+  );  
+  
+});  
+  
+  
+/*  
+  フィルター外をタップ  
+*/  
+  
+document.addEventListener(  
+  "click",  
+  function(e){  
+  
+    if(  
+      !e.target.closest(".filter-wrap")  
+    ){  
+  
+      filterArea.classList.remove(  
+        "show"  
+      );  
+  
+    }  
+  
+  }  
+);  
+  
+  
+/* =====================================================  
+   時間  
+===================================================== */  
+  
+function formatDateTime(value){  
+  
+  if(!value){  
+    return "";  
+  }  
+  
+  const d=  
+    new Date(value);  
+  
+  if(  
+    Number.isNaN(d.getTime())  
+  ){  
+    return "";  
+  }  
+  
+  return d.toLocaleString(  
+    "ja-JP",  
+    {  
+      month:"numeric",  
+      day:"numeric",  
+      hour:"2-digit",  
+      minute:"2-digit"  
+    }  
+  );  
+  
+}  
+  
+  
+function relativeTime(value){  
+  
+  if(!value){  
+    return "";  
+  }  
+  
+  const t=  
+    new Date(value).getTime();  
+  
+  if(Number.isNaN(t)){  
+    return "";  
+  }  
+  
+  const diff=  
+    Date.now()-t;  
+  
+  
+  /*  
+    未来  
+  */  
+  
+  if(diff<0){  
+  
+    const minutes=  
+      Math.floor(  
+        (-diff)/60000  
+      );  
+  
+  
+    if(minutes<1){  
+      return "まもなく開始";  
+    }  
+  
+  
+    if(minutes<60){  
+  
+      return(  
+        minutes+  
+        "分後に開始"  
+      );  
+  
+    }  
+  
+  
+    const hours=  
+      Math.floor(  
+        minutes/60  
+      );  
+  
+    const min=  
+      minutes%60;  
+  
+  
+    if(min===0){  
+  
+      return(  
+        hours+  
+        "時間後に開始"  
+      );  
+  
+    }  
+  
+  
+    return(  
+      hours+  
+      "時間"+  
+      min+  
+      "分後に開始"  
+    );  
+  
+  }  
+  
+  
+  /*  
+    過去  
+  */  
+  
+  const minutes=  
+    Math.floor(  
+      diff/60000  
+    );  
+  
+  
+  if(minutes<1){  
+    return "開始したばかり";  
+  }  
+  
+  
+  if(minutes<60){  
+  
+    return(  
+      minutes+  
+      "分前に開始"  
+    );  
+  
+  }  
+  
+  
+  const hours=  
+    Math.floor(  
+      minutes/60  
+    );  
+  
+  
+  if(hours<24){  
+  
+    const min=  
+      minutes%60;  
+  
+    if(min===0){  
+  
+      return(  
+        hours+  
+        "時間前に開始"  
+      );  
+  
+    }  
+  
+    return(  
+      hours+  
+      "時間"+  
+      min+  
+      "分前に開始"  
+    );  
+  
+  }  
+  
+  
+  return(  
+    Math.floor(hours/24)+  
+    "日前に開始"  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   Workerデータ正規化  
+===================================================== */  
+  
+function normalizeMemberData(raw){  
+  
+  if(!raw){  
+    return null;  
+  }  
+  
+  
+  const result={};  
+  
+  
+  result.channelId=  
+    raw.channelId ||  
+    raw.channelID ||  
+    raw.id ||  
+    null;  
+  
+  
+  result.avatar=  
+    raw.avatar ||  
+    raw.profileImage ||  
+    raw.profileImageUrl ||  
+    raw.thumbnail ||  
+    raw.channelAvatar ||  
+    raw.channelThumbnail ||  
+    null;  
+  
+  
+  result.isLive=  
+    raw.isLive===true ||  
+    raw.live===true ||  
+    raw.liveStatus==="live" ||  
+    raw.status==="live";  
+  
+  
+  result.isUpcoming=  
+    raw.isUpcoming===true ||  
+    raw.upcoming===true ||  
+    raw.liveStatus==="upcoming" ||  
+    raw.status==="upcoming";  
+  
+  
+  result.liveURL=  
+    raw.liveURL ||  
+    raw.liveUrl ||  
+    raw.live_url ||  
+    raw.liveVideoURL ||  
+    raw.liveVideoUrl ||  
+    null;  
+  
+  
+  result.upcomingURL=  
+    raw.upcomingURL ||  
+    raw.upcomingUrl ||  
+    raw.upcoming_url ||  
+    raw.upcomingVideoURL ||  
+    raw.upcomingVideoUrl ||  
+    null;  
+  
+  
+  result.liveTitle=  
+    raw.liveTitle ||  
+    raw.liveName ||  
+    raw.liveVideoTitle ||  
+    null;  
+  
+  
+  result.upcomingTitle=  
+    raw.upcomingTitle ||  
+    raw.upcomingName ||  
+    raw.upcomingVideoTitle ||  
+    null;  
+  
+  
+  result.liveStartTime=  
+    raw.liveStartTime ||  
+    raw.liveStartedAt ||  
+    raw.liveStart ||  
+    raw.liveScheduledStartTime ||  
+    null;  
+  
+  
+  result.upcomingStartTime=  
+    raw.upcomingStartTime ||  
+    raw.upcomingStartedAt ||  
+    raw.upcomingStart ||  
+    raw.upcomingScheduledStartTime ||  
+    null;  
+  
+  
+  result.liveThumb=  
+    raw.liveThumb ||  
+    raw.liveThumbnail ||  
+    raw.liveThumbnailURL ||  
+    null;  
+  
+  
+  result.upcomingThumb=  
+    raw.upcomingThumb ||  
+    raw.upcomingThumbnail ||  
+    raw.upcomingThumbnailURL ||  
+    null;  
+  
+  
+  /* =========================  
+     最新動画  
+  ========================= */  
+  
+  let latest=  
+    raw.latest;  
+  
+  if(!Array.isArray(latest)){  
+    latest=raw.latestVideos;  
+  }  
+  
+  if(!Array.isArray(latest)){  
+    latest=raw.videos;  
+  }  
+  
+  if(!Array.isArray(latest)){  
+    latest=raw.latestVideo;  
+    if(latest) latest=[latest];  
+  }  
+  
+  if(!Array.isArray(latest)){  
+    latest=[];  
+  }  
+  
+  
+  result.latest=  
+    latest  
+    .map(function(video){  
+  
+      if(!video){  
+        return null;  
+      }  
+  
+  
+      const id=  
+        video.id ||  
+        video.videoId ||  
+        video.video_id ||  
+        null;  
+  
+  
+      const url=  
+        video.url ||  
+        video.videoURL ||  
+        video.videoUrl ||  
+        (  
+          id  
+          ?  
+          "https://www.youtube.com/watch?v="+id  
+          :  
+          null  
+        );  
+  
+  
+      const title=  
+        video.title ||  
+        video.name ||  
+        "YouTube動画";  
+  
+  
+      const thumb=  
+        video.thumb ||  
+        video.thumbnail ||  
+        video.thumbnailURL ||  
+        (  
+          id  
+          ?  
+          "https://i.ytimg.com/vi/"+id+  
+          "/hqdefault.jpg"  
+          :  
+          null  
+        );  
+  
+  
+      const publishedAt=  
+        video.publishedAt ||  
+        video.publishDate ||  
+        video.published ||  
+        video.date ||  
+        null;  
+  
+  
+      return{  
+        id:id,  
+        url:url,  
+        title:title,  
+        thumb:thumb,  
+        publishedAt:publishedAt  
+      };  
+  
+    })  
+    .filter(function(video){  
+  
+      return(  
+        video &&  
+        video.url  
+      );  
+  
+    });  
+  
+  
+  result.latest.sort(  
+    function(a,b){  
+  
+      const ta=  
+        new Date(  
+          a.publishedAt || 0  
+        ).getTime();  
+  
+      const tb=  
+        new Date(  
+          b.publishedAt || 0  
+        ).getTime();  
+  
+      return tb-ta;  
+  
+    }  
+  );  
+  
+  
+  result.latest=  
+    result.latest.slice(0,2);  
+  
+  
+  /* =========================  
+     最新楽曲  
+  ========================= */  
+  
+  const song=  
+    raw.latestSong ||  
+    raw.latestMusic ||  
+    raw.latestSongVideo ||  
+    raw.latestMusicVideo ||  
+    raw.song ||  
+    raw.music ||  
+    null;  
+  
+  
+  if(song){  
+  
+    if(typeof song==="string"){  
+  
+      result.latestSong={  
+        url:song  
+      };  
+  
+    }  
+    else{  
+  
+      const id=  
+        song.id ||  
+        song.videoId ||  
+        song.video_id ||  
+        null;  
+  
+  
+      result.latestSong={  
+        id:id,  
+  
+        url:  
+          song.url ||  
+          song.videoURL ||  
+          song.videoUrl ||  
+          (  
+            id  
+            ?  
+            "https://www.youtube.com/watch?v="+id  
+            :  
+            null  
+          ),  
+  
+        title:  
+          song.title ||  
+          song.name ||  
+          "最新の楽曲"  
+      };  
+  
+    }  
+  
+  }  
+  else{  
+  
+    result.latestSong=null;  
+  
+  }  
+  
+  
+  return result;  
+  
+}  
+  
+  
+/* =====================================================  
+   カード状態  
+===================================================== */  
+  
+function updateCard(m,index){  
+  
+  const card=  
+    document.querySelector(  
+      '.card[data-index="'+index+'"]'  
+    );  
+  
+  if(!card){  
+    return;  
+  }  
+  
+  
+  const avatar=  
+    document.getElementById(  
+      "avatar-"+index  
+    );  
+  
+  const badge=  
+    document.getElementById(  
+      "badge-"+index  
+    );  
+  
+  const liveMini=  
+    document.getElementById(  
+      "live-mini-"+index  
+    );  
+  
+  const upcomingMini=  
+    document.getElementById(  
+      "upcoming-mini-"+index  
+    );  
+  
+  
+  card.classList.remove(  
+    "live",  
+    "upcoming"  
+  );  
+  
+  
+  avatar.classList.remove(  
+    "live",  
+    "upcoming"  
+  );  
+  
+  
+  badge.className=  
+    "status-badge";  
+  
+  badge.textContent="";  
+  
+  
+  liveMini.textContent="";  
+  
+  upcomingMini.textContent="";  
+  
+  
+  /*  
+    LIVE  
+  */  
+  
+  if(m.info.isLive){  
+  
+    card.classList.add("live");  
+  
+    avatar.classList.add("live");  
+  
+    badge.classList.add("live");  
+  
+    badge.textContent="LIVE";  
+  
+  
+    liveMini.textContent=  
+      "🔴 "+  
+      (  
+        relativeTime(  
+          m.info.liveStartTime  
+        ) ||  
+        "LIVE配信中"  
+      );  
+  
+  }  
+  
+  
+  /*  
+    待機  
+  */  
+  
+  if(m.info.isUpcoming){  
+  
+    card.classList.add("upcoming");  
+  
+    upcomingMini.textContent=  
+      "🔵 "+  
+      (  
+        relativeTime(  
+          m.info.upcomingStartTime  
+        ) ||  
+        "ライブ待機中"  
+      );  
+  
+  }  
+  
+  
+  /*  
+    LIVE＋待機  
+    赤を内側  
+    青を外側  
+  */  
+  
+  if(  
+    m.info.isLive &&  
+    m.info.isUpcoming  
+  ){  
+  
+    card.classList.add(  
+      "live",  
+      "upcoming"  
+    );  
+  
+    avatar.classList.add("live");  
+  
+    avatar.classList.remove(  
+      "upcoming"  
+    );  
+  
+    badge.className=  
+      "status-badge live";  
+  
+    badge.textContent=  
+      "LIVE";  
+  
+  }  
+  else if(  
+    m.info.isUpcoming  
+  ){  
+  
+    avatar.classList.add(  
+      "upcoming"  
+    );  
+  
+    badge.className=  
+      "status-badge upcoming";  
+  
+    badge.textContent=  
+      "待機中";  
+  
+  }  
+  
+  
+  /*  
+    最新楽曲  
+  */  
+  
+  updateSongButton(m,index);  
+  
+}  
+  
+  
+/* =====================================================  
+   最新楽曲ボタン  
+===================================================== */  
+  
+function updateSongButton(m,index){  
+  
+  const button=  
+    document.getElementById(  
+      "song-"+index  
+    );  
+  
+  if(!button){  
+    return;  
+  }  
+  
+  
+  const song=  
+    m.info.latestSong;  
+  
+  
+  if(  
+    song &&  
+    song.url  
+  ){  
+  
+    button.className=  
+      "song-button";  
+  
+    button.href=  
+      song.url;  
+  
+    button.target="_blank";  
+  
+    button.rel="noopener";  
+  
+    button.textContent=  
+      "🎵 最新の楽曲";  
+  
+  }  
+  else{  
+  
+    button.className=  
+      "song-button waiting";  
+  
+    button.removeAttribute("href");  
+  
+    button.removeAttribute("target");  
+  
+    button.removeAttribute("rel");  
+  
+    button.textContent=  
+      "🎵 最新の楽曲がでるまで楽曲をお待ちください";  
+  
+  }  
+  
+}  
+  
+  
+/* =====================================================  
+   Worker取得  
+===================================================== */  
+  
+async function refreshFromWorker(){  
+  
+  statusBox.textContent=  
+    "YouTube情報を取得中…";  
+  
+  
+  try{  
+  
+    const handles=  
+      members.map(function(m){  
+        return m.youtube;  
+      });  
+  
+  
+    const url=  
+      WORKER_URL+  
+      "?handles="+  
+      encodeURIComponent(  
+        handles.join(",")  
+      );  
+  
+  
+    const response=  
+      await fetch(  
+        url,  
+        {  
+          method:"GET",  
+          cache:"no-store"  
+        }  
+      );  
+  
+  
+    if(!response.ok){  
+  
+      throw new Error(  
+        "Worker HTTP "+  
+        response.status  
+      );  
+  
+    }  
+  
+  
+    const data=  
+      await response.json();  
+  
+  
+    /*  
+      Workerの返却形式を  
+      できるだけ柔軟に処理  
+    */  
+  
+    let workerMembers=  
+      data.members ||  
+      data.data ||  
+      data.result ||  
+      data.channels ||  
+      data;  
+  
+  
+    /*  
+      配列の場合  
+    */  
+  
+    if(Array.isArray(workerMembers)){  
+  
+      const converted={};  
+  
+  
+      workerMembers.forEach(  
+        function(item){  
+  
+          if(!item){  
+            return;  
+          }  
+  
+  
+          const key=  
+            item.youtube ||  
+            item.handle ||  
+            item.channel ||  
+            item.channelHandle ||  
+            item.youtubeHandle;  
+  
+  
+          if(key){  
+  
+            converted[key]=item;  
+  
+          }  
+  
+        }  
+      );  
+  
+  
+      workerMembers=  
+        converted;  
+  
+    }  
+  
+  
+    /*  
+      各メンバー  
+    */  
+  
+    members.forEach(  
+      function(m,index){  
+  
+        let raw=null;  
+  
+  
+        /*  
+          普通のhandle  
+        */  
+  
+        if(  
+          workerMembers &&  
+          typeof workerMembers==="object"  
+        ){  
+  
+          raw=  
+            workerMembers[m.youtube];  
+  
+        }  
+  
+  
+        /*  
+          大文字小文字無視  
+        */  
+  
+        if(!raw){  
+  
+          const key=  
+            Object.keys(  
+              workerMembers || {}  
+            )  
+            .find(function(k){  
+  
+              return(  
+                k.toLowerCase()===  
+                m.youtube.toLowerCase()  
+              );  
+  
+            });  
+  
+  
+          if(key){  
+  
+            raw=  
+              workerMembers[key];  
+  
+          }  
+  
+        }  
+  
+  
+        /*  
+          配列以外の特殊形式  
+        */  
+  
+        if(  
+          !raw &&  
+          data[m.youtube]  
+        ){  
+  
+          raw=  
+            data[m.youtube];  
+  
+        }  
+  
+  
+        if(!raw){  
+          return;  
+        }  
+  
+  
+        const info=  
+          normalizeMemberData(raw);  
+  
+  
+        if(info){  
+  
+          /*  
+            Workerの情報だけ更新。  
+            メイン画像はlocal imagesを維持。  
+          */  
+  
+          m.info=info;  
+  
+        }  
+  
+  
+        updateCard(  
+          m,  
+          index  
+        );  
+  
+      }  
+    );  
+  
+  
+    applyFilter();  
+  
+  
+    statusBox.textContent=  
+      members.length+  
+      "人のYouTube情報を取得しました";  
+  
+  
+  }  
+  catch(error){  
+  
+    console.error(  
+      "Worker Error:",  
+      error  
+    );  
+  
+  
+    statusBox.textContent=  
+      "YouTube情報を取得できませんでした";  
+  
+  
+    members.forEach(  
+      function(m,index){  
+  
+        updateCard(  
+          m,  
+          index  
+        );  
+  
+      }  
+    );  
+  
+  }  
+  
+}  
+  
+  
+/* =====================================================  
+   モーダル  
+===================================================== */  
+  
+function closeModal(){  
+  
+  modalBg.classList.remove(  
+    "show"  
+  );  
+  
+}  
+  
+  
+document  
+.getElementById("closeModal")  
+.addEventListener(  
+  "click",  
+  closeModal  
+);  
+  
+  
+modalBg.addEventListener(  
+  "click",  
+  function(e){  
+  
+    if(  
+      e.target===modalBg  
+    ){  
+  
+      closeModal();  
+  
+    }  
+  
+  }  
+);  
+  
+  
+document.addEventListener(  
+  "keydown",  
+  function(e){  
+  
+    if(e.key==="Escape"){  
+  
+      closeModal();  
+  
+    }  
+  
+  }  
+);  
+  
+  
+/* =====================================================  
+   動画カード  
+===================================================== */  
+  
+function createVideo(video){  
+  
+  const a=  
+    document.createElement("a");  
+  
+  a.className="video";  
+  
+  a.href=  
+    video.url;  
+  
+  a.target="_blank";  
+  
+  a.rel="noopener";  
+  
+  
+  if(video.thumb){  
+  
+    const img=  
+      document.createElement("img");  
+  
+    img.src=  
+      video.thumb;  
+  
+    img.alt="";  
+  
+    img.onerror=  
+      function(){  
+  
+        img.style.display=  
+          "none";  
+  
+      };  
+  
+  
+    a.appendChild(img);  
+  
+  }  
+  
+  
+  const text=  
+    document.createElement("div");  
+  
+  text.className=  
+    "video-text";  
+  
+  
+  const title=  
+    document.createElement("div");  
+  
+  title.textContent=  
+    video.title;  
+  
+  
+  const time=  
+    document.createElement("div");  
+  
+  time.className=  
+    "video-time";  
+  
+  
+  time.textContent=  
+    video.publishedAt  
+    ?  
+    formatDateTime(  
+      video.publishedAt  
+    )  
+    :  
+    "";  
+  
+  
+  text.appendChild(title);  
+  text.appendChild(time);  
+  
+  a.appendChild(text);  
+  
+  
+  return a;  
+  
+}  
+  
+  
+/* =====================================================  
+   LIVE / 待機  
+===================================================== */  
+  
+function createLiveLink(  
+  title,  
+  url,  
+  color  
+){  
+  
+  const a=  
+    document.createElement("a");  
+  
+  a.className=  
+    "live-link "+  
+    color;  
+  
+  a.href=  
+    url || "#";  
+  
+  a.target="_blank";  
+  
+  a.rel="noopener";  
+  
+  a.textContent=  
+    title;  
+  
+  
+  return a;  
+  
+}  
+  
+  
+/* =====================================================  
+   メンバーモーダル  
+===================================================== */  
+  
+function openMember(index){  
+  
+  const m=  
+    members[index];  
+  
+  
+  if(!m){  
+    return;  
+  }  
+  
+  
+  modalTitle.textContent=  
+    m.name;  
+  
+  
+  modalGroup.textContent=  
+    m.groups.join("　")+  
+    "　｜　デビュー："+m.date;  
+  
+  
+  setImage(  
+    modalAvatar,  
+    localImage(m)  
+  );  
+  
+  
+  modalContent.innerHTML="";  
+  
+  
+  /*  
+    LIVE / 待機  
+    LIVEを先に表示  
+  */  
+  
+  if(m.info.isLive){  
+  
+    const section=  
+      document.createElement("div");  
+  
+    section.className=  
+      "section";  
+  
+  
+    const title=  
+      document.createElement("div");  
+  
+    title.className=  
+      "section-title";  
+  
+    title.textContent=  
+      "🔴 現在ライブ配信中";  
+  
+  
+    section.appendChild(title);  
+  
+  
+    section.appendChild(  
+      createLiveLink(  
+        m.info.liveTitle ||  
+        "LIVE配信を見る",  
+        m.info.liveURL,  
+        "red"  
+      )  
+    );  
+  
+  
+    if(m.info.liveStartTime){  
+  
+      const time=  
+        document.createElement("div");  
+  
+      time.className=  
+        "video-time";  
+  
+      time.textContent=  
+        relativeTime(  
+          m.info.liveStartTime  
+        )+  
+        "　"+  
+        formatDateTime(  
+          m.info.liveStartTime  
+        );  
+  
+  
+      section.appendChild(time);  
+  
+    }  
+  
+  
+    modalContent.appendChild(  
+      section  
+    );  
+  
+  }  
+  
+  
+  /*  
+    待機  
+  */  
+  
+  if(m.info.isUpcoming){  
+  
+    const section=  
+      document.createElement("div");  
+  
+    section.className=  
+      "section";  
+  
+  
+    const title=  
+      document.createElement("div");  
+  
+    title.className=  
+      "section-title";  
+  
+    title.textContent=  
+      "🔵 配信予定";  
+  
+  
+    section.appendChild(title);  
+  
+  
+    section.appendChild(  
+      createLiveLink(  
+        m.info.upcomingTitle ||  
+        "待機画面を見る",  
+        m.info.upcomingURL,  
+        "blue"  
+      )  
+    );  
+  
+  
+    if(m.info.upcomingStartTime){  
+  
+      const time=  
+        document.createElement("div");  
+  
+      time.className=  
+        "video-time";  
+  
+      time.textContent=  
+        relativeTime(  
+          m.info.upcomingStartTime  
+        )+  
+        "　"+  
+        formatDateTime(  
+          m.info.upcomingStartTime  
+        );  
+  
+  
+      section.appendChild(time);  
+  
+    }  
+  
+  
+    modalContent.appendChild(  
+      section  
+    );  
+  
+  }  
+  
+  
+  /*  
+    最新動画2本  
+  */  
+  
+  const videoSection=  
+    document.createElement("div");  
+  
+  videoSection.className=  
+    "section";  
+  
+  
+  const videoTitle=  
+    document.createElement("div");  
+  
+  videoTitle.className=  
+    "section-title";  
+  
+  videoTitle.textContent=  
+    "📺 最新の動画";  
+  
+  
+  videoSection.appendChild(  
+    videoTitle  
+  );  
+  
+  
+  if(  
+    Array.isArray(m.info.latest) &&  
+    m.info.latest.length>0  
+  ){  
+  
+    m.info.latest  
+    .slice(0,2)  
+    .forEach(  
+      function(video){  
+  
+        videoSection.appendChild(  
+          createVideo(video)  
+        );  
+  
+      }  
+    );  
+  
+  }  
+  else{  
+  
+    const none=  
+      document.createElement("div");  
+  
+    none.className="none";  
+  
+    none.textContent=  
+      "最新動画を取得できませんでした";  
+  
+  
+    videoSection.appendChild(  
+      none  
+    );  
+  
+  }  
+  
+  
+  modalContent.appendChild(  
+    videoSection  
+  );  
+  
+  
+  /*  
+    アカウント  
+  */  
+  
+  const socialSection=  
+    document.createElement("div");  
+  
+  socialSection.className=  
+    "section";  
+  
+  
+  const socialTitle=  
+    document.createElement("div");  
+  
+  socialTitle.className=  
+    "section-title";  
+  
+  socialTitle.textContent=  
+    "🔗 アカウント";  
+  
+  
+  socialSection.appendChild(  
+    socialTitle  
+  );  
+  
+  
+  const yt=  
+    document.createElement("a");  
+  
+  yt.href=  
+    m.youtubeURL;  
+  
+  yt.target="_blank";  
+  
+  yt.rel="noopener";  
+  
+  yt.textContent=  
+    "▶ YouTubeチャンネル";  
+  
+  
+  socialSection.appendChild(yt);  
+  
+  
+  socialSection.appendChild(  
+    document.createElement("br")  
+  );  
+  
+  
+  const x=  
+    document.createElement("a");  
+  
+  x.href=  
+    m.xURL;  
+  
+  x.target="_blank";  
+  
+  x.rel="noopener";  
+  
+  x.textContent=  
+    "𝕏 Xアカウント";  
+  
+  
+  socialSection.appendChild(x);  
+  
+  
+  modalContent.appendChild(  
+    socialSection  
+  );  
+  
+  
+  modalBg.classList.add(  
+    "show"  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   30秒ごとに時間表示更新  
+===================================================== */  
+  
+setInterval(  
+  function(){  
+  
+    members.forEach(  
+      function(m,index){  
+  
+        updateCard(  
+          m,  
+          index  
+        );  
+  
+      }  
+    );  
+  
+  },  
+  30000  
+);  
+  
+  
+/* =====================================================  
+   初期化  
+===================================================== */  
+  
+statusBox.textContent=  
+  members.length+  
+  "人を表示しています";  
+  
+  
+applyFilter();  
+  
+  
+refreshFromWorker();  
+  
+</script>  
+  
+</body>  
+</html>  
