@@ -532,7 +532,248 @@ h1{
   
   font-size:12px;  
 }  
-  
+  /* =====================================================
+   ドットホロメン
+===================================================== */
+
+
+#dotHoloWorld{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+
+.dotHolo{
+  position:absolute;
+
+
+  width:40px;
+  height:40px;
+
+
+  object-fit:contain;
+
+
+  image-rendering:pixelated;
+
+
+  user-select:none;
+  -webkit-user-drag:none;
+
+
+  pointer-events:none;
+
+
+  will-change:transform,left,top;
+
+
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.18));
+}
+
+
+.dotHolo.walk{
+  animation:dotWalk .55s steps(2) infinite;
+}
+
+
+.dotHolo.idle{
+  animation:dotIdle 1.8s steps(2) infinite;
+}
+
+
+.dotHolo.sit{
+  animation:dotSit 2s steps(2) infinite;
+}
+
+
+.dotHolo.cry{
+  animation:dotCry .45s steps(2) infinite;
+}
+
+
+.dotHolo.eat{
+  animation:dotEat .65s steps(2) infinite;
+}
+
+
+.dotHolo.sleep{
+  animation:dotSleep 2.2s steps(2) infinite;
+}
+
+
+@keyframes dotWalk{
+  0%{
+    margin-top:0;
+    transform:rotate(-2deg);
+  }
+
+
+  50%{
+    margin-top:-3px;
+    transform:rotate(2deg);
+  }
+
+
+  100%{
+    margin-top:0;
+    transform:rotate(-2deg);
+  }
+}
+
+
+@keyframes dotIdle{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+
+  50%{
+    transform:translateY(-1px);
+  }
+}
+
+
+@keyframes dotSit{
+  0%,100%{
+    transform:translateY(4px) scaleY(.82);
+  }
+
+
+  50%{
+    transform:translateY(5px) scaleY(.80);
+  }
+}
+
+
+@keyframes dotCry{
+  0%,100%{
+    transform:translateX(0);
+  }
+
+
+  25%{
+    transform:translateX(-2px);
+  }
+
+
+  75%{
+    transform:translateX(2px);
+  }
+}
+
+
+@keyframes dotEat{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+
+  50%{
+    transform:translateY(-2px);
+  }
+}
+
+
+@keyframes dotSleep{
+  0%,100%{
+    transform:translateY(0) rotate(-2deg);
+  }
+
+
+  50%{
+    transform:translateY(2px) rotate(2deg);
+  }
+}
+
+
+.dotFood{
+  position:absolute;
+
+
+  width:14px;
+  height:14px;
+
+
+  image-rendering:pixelated;
+
+
+  pointer-events:none;
+
+
+  z-index:2;
+}
+
+
+.dotTears{
+  position:absolute;
+
+
+  font-size:12px;
+
+
+  pointer-events:none;
+
+
+  animation:dotTear .7s steps(2) infinite;
+}
+
+
+@keyframes dotTear{
+  0%{
+    transform:translateY(0);
+    opacity:1;
+  }
+
+
+  100%{
+    transform:translateY(7px);
+    opacity:.2;
+  }
+}
+
+
+.dotSleepMark{
+  position:absolute;
+
+
+  font-size:12px;
+  font-weight:bold;
+
+
+  color:#777;
+
+
+  pointer-events:none;
+
+
+  animation:dotZzz 1.5s steps(3) infinite;
+}
+
+
+@keyframes dotZzz{
+  0%{
+    transform:translate(0,4px);
+    opacity:.2;
+  }
+
+
+  50%{
+    transform:translate(3px,-2px);
+    opacity:1;
+  }
+
+
+  100%{
+    transform:translate(6px,-8px);
+    opacity:0;
+  }
+}
+
+
+
 @media(max-width:600px){  
   
   h1{  
@@ -613,7 +854,7 @@ h1{
   id="filterButton"  
   type="button"  
 >  
-📂 すべて 
+📂 すべて  
 </button>  
   
 <div id="filterArea">  
@@ -681,6 +922,12 @@ FLOW GLOW
 </header>  
   
 <main id="members"></main>  
+<!-- =====================================================
+     ドットホロメン
+===================================================== -->
+
+
+<div id="dotHoloWorld"></div>
   
   
 <div id="modalBg">  
@@ -808,7 +1055,7 @@ youtube:"SakuraMiko",
 x:"sakuramiko35",  
 image:"sakura_miko.jpg",  
 youtubeURL:"https://www.youtube.com/@SakuraMiko",  
-xURL:"https://x.com/sakuramiko35"  
+xURL:"https://x.com/sakuramiko_35"  
 },  
   
 {  
@@ -1661,7 +1908,7 @@ document
       filterButton.textContent=  
         selectedGroup==="all"  
         ?  
-        "📂 すべて"  
+        "📂 フィルター"  
         :  
         "📂 "+selectedGroup;  
   
@@ -2381,7 +2628,7 @@ function updateSongButton(m,index){
     button.removeAttribute("rel");  
   
     button.textContent=  
-      "🎵 楽曲がでるまでお待ちください";  
+      "🎵 最新の楽曲がでるまで楽曲をお待ちください";  
   
   }  
   
@@ -3144,7 +3391,3506 @@ applyFilter();
   
   
 refreshFromWorker();  
+
+
+
+
+
+
+
+
+/* =====================================================
+   ホロメン一覧
+===================================================== */
+
+
+const dotHolomembers = [
+
+
+  {
+    name:"さくらみこ",
+    image:"sakura_miko.png"
+  },
+
+
+  {
+    name:"ときのそら",
+    image:"tokino_sora.png"
+  },
+
+
+  {
+    name:"ロボ子さん",
+    image:"robocosan.png"
+  },
+
+
+  {
+    name:"azki",
+    image:"azki.png"
+  },
+
+
+  {
+    name:"星街すいせい",
+    image:"hoshimati_suisei.png"
+  },
+
+
+  {
+    name:"白上フブキ",
+    image:"shirakami_fubuki.png"
+  },
+
+
+  {
+    name:"赤井はあと",
+    image:"akai_haato.png"
+  },
+
+
+  {
+    name:"アキ・ローゼンタール",
+    image:"aki_rozental.png"
+  },
+
+
+  {
+    name:"夏色まつり",
+    image:"natsuiro_matsuri.png"
+  },
+
+
+  {
+    name:"百鬼あやめ",
+    image:"nakiri_ayame.png"
+  },
+
+
+  {
+    name:"大空すばる",
+    image:"oozora_subaru.png"
+  },
+
+
+  {
+    name:"癒月ちょこ",
+    image:"yuzuki_choco.png"
+  },
+
+
+  {
+    name:"大神みお",
+    image:"ookami_mio.png"
+  },
+
+
+  {
+    name:"猫又おかゆ",
+    image:"nekomata_okayu.png"
+  },
+
+
+  {
+    name:"戌神ころね",
+    image:"inugami_korone.png"
+  },
+
+
+  {
+    name:"兎田ぺこら",
+    image:"usada_pekora.png"
+  },
+
+
+  {
+    name:"白銀ノエル",
+    image:"shirogane_noel.png"
+  },
+
+
+  {
+    name:"不知火フレア",
+    image:"shiranui_furea.png"
+  },
+
+
+  {
+    name:"宝鐘マリン",
+    image:"housyou_marin.png"
+  },
+
+
+  {
+    name:"角巻わため",
+    image:"tsunomaki_watame.png"
+  },
+
+
+  {
+    name:"常闇トワ",
+    image:"tokoyami_towa.png"
+  },
+
+
+  {
+    name:"姫森ルーナ",
+    image:"himemori_luna.png"
+  },
+
+
+  {
+    name:"雪花ラミィ",
+    image:"yukihana_lamy.png"
+  },
+
+
+  {
+    name:"桃鈴ねね",
+    image:"momosuzu_nene.png"
+  },
+
+
+  {
+    name:"獅白ぼたん",
+    image:"shishiro_botan.png"
+  },
+
+
+  {
+    name:"尾丸ポルカ",
+    image:"omaru_poruka.png"
+  },
+
+
+  {
+    name:"ラプラス・ダークネス",
+    image:"lapulas_darkness.png"
+  },
+
+
+  {
+    name:"白衣こより",
+    image:"hakui_koyori.png"
+  },
+
+
+  {
+    name:"風真いろは",
+    image:"kazama_iroha.png"
+  },
+
+
+  {
+    name:"高嶺ルイ",
+    image:"takane_rui.png"
+  },
+
+
+  {
+    name:"音乃瀬奏",
+    image:"otonose_kanade.png"
+  },
+
+
+  {
+    name:"一条莉々華",
+    image:"itijo_ririka.png"
+  },
+
+
+  {
+    name:"轟はじめ",
+    image:"todoroki_hazime.png"
+  },
+
+
+  {
+    name:"儒烏風亭らでん",
+    image:"juhute_raden.png"
+  },
+
+
+  {
+    name:"水宮枢",
+    image:"mizumiya_su.png"
+  },
+
+
+  {
+    name:"輪堂千速",
+    image:"rindo_chihaya.png"
+  },
+
+
+  {
+    name:"綺々羅々ヴィヴィ",
+    image:"kikirara_vivi.png"
+  },
+
+
+  {
+    name:"響咲リオナ",
+    image:"isaki_riona.png"
+  },
+
+
+  {
+    name:"虎金妃笑虎",
+    image:"koganei_niko.png"
+  },
+
+
+  {
+    name:"熱千めら",
+    image:"achichi_mera.png"
+  },
+
+
+  {
+    name:"宙科そぴあ",
+    image:"sorashina_sopia.png"
+  },
+
+
+  {
+    name:"鈴鳴つづり",
+    image:"suzuna_tuzuri.png"
+  },
+
+
+  {
+    name:"百灯キョーコ",
+    image:"hyakuto_kyoko.png"
+  }
+
+
+];
+
+
+
+
+/* =====================================================  
+   ドットホロメン システム  
+===================================================== */  
   
+const dotHoloWorld =  
+  document.getElementById("dotHoloWorld");  
+  
+  
+/* =====================================================  
+   行動  
+===================================================== */  
+  
+const dotActions = [  
+  "walk",  
+  "walk",  
+  "walk",  
+  "idle",  
+  "sit",  
+  "cry",  
+  "eat",  
+  "sleep",  
+  "jump",  
+  "run",  
+  "explode",  
+  "heal",  
+  "soccer"  
+];  
+  
+  
+/* =====================================================  
+   ボス  
+===================================================== */  
+  
+const dotBossTypes = [  
+  
+  {  
+    name:"YAGOO1",  
+    image:"YAGOO.png",  
+    hp:200  
+  },  
+  
+  {  
+    name:"YAGOO2",  
+    image:"YAGOO2.png",  
+    hp:150  
+  },  
+  
+  {  
+    name:"YAGOO3",  
+    image:"YAGOO3.png",  
+    hp:100  
+  }  
+  
+];  
+  
+  
+/*  
+  現在出ているボス  
+  1～3体入る  
+*/  
+  
+const dotActiveBosses = [];  
+  
+  
+/*  
+  次のボスまでの時間  
+*/  
+  
+let dotBossTimer =  
+  Math.floor(  
+    Math.random() * 901  
+  ) + 900;  
+  
+  
+/*  
+  キャラクター一覧  
+*/  
+  
+const dotCharacters = [];  
+  
+  
+/*  
+  救助中のキャラ  
+*/  
+  
+const dotRescueTargets = [];  
+  
+  
+/*  
+  追いかけっこ  
+*/  
+  
+let dotChaseTimer =  
+  Math.floor(  
+    dotRandom(600,1800)  
+  );  
+  
+  
+/* =====================================================  
+   ランダム  
+===================================================== */  
+  
+function dotRandom(min,max){  
+  
+  return Math.random() *  
+    (max-min) +  
+    min;  
+  
+}  
+  
+  
+/* =====================================================  
+   ボス戦中か  
+===================================================== */  
+  
+function dotBossBattleActive(){  
+  
+  return dotActiveBosses.length > 0;  
+  
+}  
+  
+  
+/* =====================================================  
+   ボスHP表示  
+===================================================== */  
+  
+function dotBossShowHP(){  
+  
+  let hp =  
+    document.getElementById(  
+      "dotBossHP"  
+    );  
+  
+  
+  /*  
+    ボスがいない  
+  */  
+  
+  if(dotActiveBosses.length === 0){  
+  
+    if(hp){  
+      hp.remove();  
+    }  
+  
+    return;  
+  
+  }  
+  
+  
+  if(!hp){  
+  
+    hp =  
+      document.createElement("div");  
+  
+    hp.id =  
+      "dotBossHP";  
+  
+    hp.style.position =  
+      "fixed";  
+  
+    hp.style.top =  
+      "10px";  
+  
+    hp.style.left =  
+      "50%";  
+  
+    hp.style.transform =  
+      "translateX(-50%)";  
+  
+    hp.style.zIndex =  
+      "99999";  
+  
+    hp.style.background =  
+      "rgba(0,0,0,.75)";  
+  
+    hp.style.color =  
+      "white";  
+  
+    hp.style.padding =  
+      "7px 16px";  
+  
+    hp.style.borderRadius =  
+      "10px";  
+  
+    hp.style.fontWeight =  
+      "bold";  
+  
+    hp.style.fontSize =  
+      "16px";  
+  
+    hp.style.pointerEvents =  
+      "none";  
+  
+    dotHoloWorld.appendChild(  
+      hp  
+    );  
+  
+  }  
+  
+  
+  const totalHP =  
+    dotActiveBosses.reduce(  
+      function(total,boss){  
+  
+        return total +  
+          Math.max(0,boss.hp);  
+  
+      },  
+      0  
+    );  
+  
+  
+  const totalMaxHP =  
+    dotActiveBosses.reduce(  
+      function(total,boss){  
+  
+        return total +  
+          boss.maxHp;  
+  
+      },  
+      0  
+    );  
+  
+  
+  hp.textContent =  
+    "BOSS × " +  
+    dotActiveBosses.length +  
+    "　HP : " +  
+    totalHP +  
+    " / " +  
+    totalMaxHP;  
+  
+}  
+  
+  
+/* =====================================================  
+   一番近いホロメン  
+===================================================== */  
+  
+function dotFindNearestCharacter(){  
+  
+  let nearest =  
+    null;  
+  
+  let nearestDistance =  
+    Infinity;  
+  
+  
+  dotCharacters.forEach(  
+    function(character){  
+  
+      if(  
+        character.defeated ||  
+        character.rescuing  
+      ){  
+        return;  
+      }  
+  
+  
+      /*  
+        すでに別ボスに狙われていても  
+        生存していれば対象にできる  
+      */  
+  
+      const dx =  
+        character.x -  
+        thisBossX;  
+  
+      const dy =  
+        character.y -  
+        thisBossY;  
+  
+      const distance =  
+        Math.sqrt(  
+          dx*dx +  
+          dy*dy  
+        );  
+  
+  
+      if(  
+        distance <  
+        nearestDistance  
+      ){  
+  
+        nearestDistance =  
+          distance;  
+  
+        nearest =  
+          character;  
+  
+      }  
+  
+    }.bind(  
+      {  
+        /* dummy */  
+      }  
+    )  
+  );  
+  
+  
+  return nearest;  
+  
+}  
+  
+  
+/*  
+  ボス専用の最近キャラ検索  
+*/  
+  
+function dotFindNearestToBoss(boss){  
+  
+  let nearest =  
+    null;  
+  
+  let nearestDistance =  
+    Infinity;  
+  
+  
+  dotCharacters.forEach(  
+    function(character){  
+  
+      if(  
+        character.defeated ||  
+        character.rescuing  
+      ){  
+        return;  
+      }  
+  
+  
+      const dx =  
+        character.x -  
+        boss.x;  
+  
+      const dy =  
+        character.y -  
+        boss.y;  
+  
+  
+      const distance =  
+        Math.sqrt(  
+          dx*dx +  
+          dy*dy  
+        );  
+  
+  
+      if(  
+        distance <  
+        nearestDistance  
+      ){  
+  
+        nearestDistance =  
+          distance;  
+  
+        nearest =  
+          character;  
+  
+      }  
+  
+    }  
+  );  
+  
+  
+  return nearest;  
+  
+}  
+  
+  
+/* =====================================================  
+   ボス出現  
+===================================================== */  
+  
+function dotSpawnBoss(){  
+  
+  /*  
+    すでにボスがいるなら出現させない  
+  */  
+  
+  if(  
+    dotActiveBosses.length > 0  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    1～3体  
+  */  
+  
+  const count =  
+    Math.floor(  
+      dotRandom(1,4)  
+    );  
+  
+  
+  for(  
+    let i=0;  
+    i<count;  
+    i++  
+  ){  
+  
+    const data =  
+      dotBossTypes[  
+        Math.floor(  
+          Math.random() *  
+          dotBossTypes.length  
+        )  
+      ];  
+  
+  
+    const wrapper =  
+      document.createElement("div");  
+  
+  
+    wrapper.className =  
+      "dotBoss";  
+  
+  
+    wrapper.style.position =  
+      "absolute";  
+  
+  
+    /*  
+      画面全体から完全ランダム  
+    */  
+  
+    wrapper.style.left =  
+      dotRandom(5,88) +  
+      "vw";  
+  
+  
+    wrapper.style.top =  
+      dotRandom(12,75) +  
+      "vh";  
+  
+  
+    const img =  
+      document.createElement("img");  
+  
+  
+    img.src =  
+      "ドットホロメン/" +  
+      data.image;  
+  
+  
+    img.alt =  
+      data.name;  
+  
+  
+    img.draggable =  
+      false;  
+  
+  
+    img.style.width =  
+      "120px";  
+  
+  
+    img.style.height =  
+      "120px";  
+  
+  
+    img.style.objectFit =  
+      "contain";  
+  
+  
+    wrapper.appendChild(  
+      img  
+    );  
+  
+  
+    dotHoloWorld.appendChild(  
+      wrapper  
+    );  
+  
+  
+    const boss = {  
+  
+      wrapper:wrapper,  
+  
+      img:img,  
+  
+      x:parseFloat(  
+        wrapper.style.left  
+      ),  
+  
+      y:parseFloat(  
+        wrapper.style.top  
+      ),  
+  
+      hp:data.hp,  
+  
+      maxHp:data.hp,  
+  
+      target:null,  
+  
+      attackCooldown:  
+        Math.floor(  
+          dotRandom(30,120)  
+        ),  
+  
+      dead:false  
+  
+    };  
+  
+  
+    dotActiveBosses.push(  
+      boss  
+    );  
+  
+  }  
+  
+  
+  /*  
+    全員を攻撃状態  
+  */  
+  
+  dotCharacters.forEach(  
+    function(character){  
+  
+      if(  
+        !character.defeated &&  
+        !character.rescuing  
+      ){  
+  
+        dotSetShootMode(  
+          character  
+        );  
+  
+      }  
+  
+    }  
+  );  
+  
+  
+  dotBossShowHP();  
+  
+}  
+  
+  
+/* =====================================================  
+   射撃モード  
+===================================================== */  
+  
+function dotSetShootMode(character){  
+  
+  character.action =  
+    "shoot";  
+  
+  
+  character.timer =  
+    999999;  
+  
+  
+  character.img.className =  
+    "dotHolo shoot";  
+  
+  
+}  
+  
+  
+/* =====================================================  
+   ボス移動  
+===================================================== */  
+  
+function dotBossUpdate(){  
+  
+  if(  
+    dotActiveBosses.length === 0  
+  ){  
+    return;  
+  }  
+  
+  
+  dotActiveBosses.forEach(  
+    function(boss){  
+  
+      if(boss.dead){  
+        return;  
+      }  
+  
+  
+      /*  
+        一番近いホロメンを探す  
+      */  
+  
+      const target =  
+        dotFindNearestToBoss(  
+          boss  
+        );  
+  
+  
+      if(!target){  
+        return;  
+      }  
+  
+  
+      boss.target =  
+        target;  
+  
+  
+      const dx =  
+        target.x -  
+        boss.x;  
+  
+  
+      const dy =  
+        target.y -  
+        boss.y;  
+  
+  
+      const distance =  
+        Math.sqrt(  
+          dx*dx +  
+          dy*dy  
+        );  
+  
+  
+      /*  
+        ボスが接近  
+      */  
+  
+      if(distance > 8){  
+  
+        boss.x +=  
+          dx / distance *  
+          0.10;  
+  
+        boss.y +=  
+          dy / distance *  
+          0.10;  
+  
+      }  
+  
+  
+      boss.wrapper.style.left =  
+        boss.x+"vw";  
+  
+  
+      boss.wrapper.style.top =  
+        boss.y+"vh";  
+  
+  
+      /*  
+        攻撃  
+      */  
+  
+      if(  
+        distance <= 8 &&  
+        boss.attackCooldown <= 0  
+      ){  
+  
+        dotBossAttack(  
+          boss,  
+          target  
+        );  
+  
+  
+        boss.attackCooldown =  
+          Math.floor(  
+            dotRandom(100,180)  
+          );  
+  
+      }  
+  
+  
+      if(  
+        boss.attackCooldown > 0  
+      ){  
+  
+        boss.attackCooldown--;  
+  
+      }  
+  
+    }  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   ボス攻撃  
+===================================================== */  
+  
+function dotBossAttack(  
+  boss,  
+  character  
+){  
+  
+  if(  
+    !boss ||  
+    !character ||  
+    character.defeated  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    斬撃エフェクト  
+  */  
+  
+  const slash =  
+    document.createElement("div");  
+  
+  
+  slash.textContent =  
+    "⚔️";  
+  
+  
+  slash.style.position =  
+    "absolute";  
+  
+  
+  slash.style.left =  
+    "25px";  
+  
+  
+  slash.style.top =  
+    "5px";  
+  
+  
+  slash.style.fontSize =  
+    "55px";  
+  
+  
+  slash.style.zIndex =  
+    "10000";  
+  
+  
+  slash.style.pointerEvents =  
+    "none";  
+  
+  
+  boss.wrapper.appendChild(  
+    slash  
+  );  
+  
+  
+  setTimeout(  
+    function(){  
+  
+      slash.remove();  
+  
+    },  
+    500  
+  );  
+  
+  
+  /*  
+    ホロメンを倒す  
+  */  
+  
+  dotDefeatCharacter(  
+    character  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   ホロメンを倒す  
+===================================================== */  
+  
+function dotDefeatCharacter(  
+  character  
+){  
+  
+  if(  
+    !character ||  
+    character.defeated  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    救助中なら解除  
+  */  
+  
+  character.rescuing =  
+    false;  
+  
+  
+  /*  
+    全演出を消す  
+  */  
+  
+  dotClearExtras(  
+    character  
+  );  
+  
+  
+  character.defeated =  
+    true;  
+  
+  
+  character.action =  
+    "defeated";  
+  
+  
+  character.timer =  
+    999999;  
+  
+  
+  character.img.className =  
+    "dotHolo defeated";  
+  
+  
+  /*  
+    横に倒す  
+  */  
+  
+  character.img.style.transform =  
+    "rotate(90deg)";  
+  
+  
+  character.img.style.transformOrigin =  
+    "center bottom";  
+  
+}  
+  
+  
+/* =====================================================  
+   ボスへの銃撃  
+===================================================== */  
+  
+function dotShootBoss(  
+  character  
+){  
+  
+  if(  
+    !dotBossBattleActive() ||  
+    !character ||  
+    character.defeated  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    弾  
+  */  
+  
+  const bullet =  
+    document.createElement("div");  
+  
+  
+  bullet.className =  
+    "dotBullet";  
+  
+  
+  bullet.textContent =  
+    "•";  
+  
+  
+  bullet.style.position =  
+    "fixed";  
+  
+  
+  bullet.style.zIndex =  
+    "99999";  
+  
+  
+  bullet.style.fontSize =  
+    "24px";  
+  
+  
+  bullet.style.fontWeight =  
+    "bold";  
+  
+  
+  bullet.style.pointerEvents =  
+    "none";  
+  
+  
+  document.body.appendChild(  
+    bullet  
+  );  
+  
+  
+  /*  
+    ホロメン位置  
+  */  
+  
+  const rect =  
+    character.img.getBoundingClientRect();  
+  
+  
+  let x =  
+    rect.left +  
+    rect.width / 2;  
+  
+  
+  let y =  
+    rect.top +  
+    rect.height / 2;  
+  
+  
+  /*  
+    一番近いボスを狙う  
+  */  
+  
+  let targetBoss =  
+    null;  
+  
+  
+  let nearestDistance =  
+    Infinity;  
+  
+  
+  dotActiveBosses.forEach(  
+    function(boss){  
+  
+      const dx =  
+        boss.img.getBoundingClientRect().left -  
+        x;  
+  
+      const dy =  
+        boss.img.getBoundingClientRect().top -  
+        y;  
+  
+  
+      const distance =  
+        Math.sqrt(  
+          dx*dx +  
+          dy*dy  
+        );  
+  
+  
+      if(  
+        distance <  
+        nearestDistance  
+      ){  
+  
+        nearestDistance =  
+          distance;  
+  
+        targetBoss =  
+          boss;  
+  
+      }  
+  
+    }  
+  );  
+  
+  
+  if(!targetBoss){  
+  
+    bullet.remove();  
+  
+    return;  
+  
+  }  
+  
+  
+  const bossRect =  
+    targetBoss.img.getBoundingClientRect();  
+  
+  
+  const targetX =  
+    bossRect.left +  
+    bossRect.width / 2;  
+  
+  
+  const targetY =  
+    bossRect.top +  
+    bossRect.height / 2;  
+  
+  
+  const dx =  
+    targetX-x;  
+  
+  
+  const dy =  
+    targetY-y;  
+  
+  
+  const distance =  
+    Math.sqrt(  
+      dx*dx +  
+      dy*dy  
+    );  
+  
+  
+  if(distance <= 0){  
+  
+    bullet.remove();  
+  
+    return;  
+  
+  }  
+  
+  
+  const speed =  
+    10;  
+  
+  
+  const vx =  
+    dx/distance*speed;  
+  
+  
+  const vy =  
+    dy/distance*speed;  
+  
+  
+  function moveBullet(){  
+  
+    /*  
+      ボスが消えた  
+    */  
+  
+    if(  
+      !dotBossBattleActive() ||  
+      !targetBoss ||  
+      targetBoss.dead  
+    ){  
+  
+      bullet.remove();  
+  
+      return;  
+  
+    }  
+  
+  
+    x += vx;  
+    y += vy;  
+  
+  
+    bullet.style.left =  
+      x+"px";  
+  
+  
+    bullet.style.top =  
+      y+"px";  
+  
+  
+    /*  
+      最新のボス位置  
+    */  
+  
+    const bossRectNow =  
+      targetBoss.img.getBoundingClientRect();  
+  
+  
+    const bossX =  
+      bossRectNow.left +  
+      bossRectNow.width/2;  
+  
+  
+    const bossY =  
+      bossRectNow.top +  
+      bossRectNow.height/2;  
+  
+  
+    const hitX =  
+      bossX-x;  
+  
+  
+    const hitY =  
+      bossY-y;  
+  
+  
+    const hitDistance =  
+      Math.sqrt(  
+        hitX*hitX +  
+        hitY*hitY  
+      );  
+  
+  
+    /*  
+      命中  
+    */  
+  
+    if(  
+      hitDistance <  
+      Math.max(  
+        35,  
+        bossRectNow.width/2  
+      )  
+    ){  
+  
+      bullet.remove();  
+  
+  
+      targetBoss.hp -=  
+        10;  
+  
+  
+      dotBossShowHP();  
+  
+  
+      /*  
+        このボスだけ撃破  
+      */  
+  
+      if(  
+        targetBoss.hp <= 0  
+      ){  
+  
+        dotDefeatSingleBoss(  
+          targetBoss  
+        );  
+  
+      }  
+  
+  
+      return;  
+  
+    }  
+  
+  
+    /*  
+      画面外  
+    */  
+  
+    if(  
+      x < -100 ||  
+      x > window.innerWidth+100 ||  
+      y < -100 ||  
+      y > window.innerHeight+100  
+    ){  
+  
+      bullet.remove();  
+  
+      return;  
+  
+    }  
+  
+  
+    requestAnimationFrame(  
+      moveBullet  
+    );  
+  
+  }  
+  
+  
+  moveBullet();  
+  
+}  
+  
+  
+/* =====================================================  
+   1体のボス撃破  
+===================================================== */  
+  
+function dotDefeatSingleBoss(  
+  boss  
+){  
+  
+  if(  
+    !boss ||  
+    boss.dead  
+  ){  
+    return;  
+  }  
+  
+  
+  boss.dead =  
+    true;  
+  
+  
+  /*  
+    爆発  
+  */  
+  
+  const explosion =  
+    document.createElement("div");  
+  
+  
+  explosion.textContent =  
+    "💥";  
+  
+  
+  explosion.style.position =  
+    "absolute";  
+  
+  
+  explosion.style.left =  
+    "5px";  
+  
+  
+  explosion.style.top =  
+    "-10px";  
+  
+  
+  explosion.style.fontSize =  
+    "80px";  
+  
+  
+  explosion.style.zIndex =  
+    "10000";  
+  
+  
+  explosion.style.pointerEvents =  
+    "none";  
+  
+  
+  boss.wrapper.appendChild(  
+    explosion  
+  );  
+  
+  
+  /*  
+    一覧から削除  
+  */  
+  
+  const index =  
+    dotActiveBosses.indexOf(  
+      boss  
+    );  
+  
+  
+  if(index !== -1){  
+  
+    dotActiveBosses.splice(  
+      index,  
+      1  
+    );  
+  
+  }  
+  
+  
+  dotBossShowHP();  
+  
+  
+  /*  
+    ボスを消す  
+  */  
+  
+  setTimeout(  
+    function(){  
+  
+      if(  
+        boss.wrapper &&  
+        boss.wrapper.parentNode  
+      ){  
+  
+        boss.wrapper.remove();  
+  
+      }  
+  
+    },  
+    700  
+  );  
+  
+  
+  /*  
+    まだボスが残っている  
+  */  
+  
+  if(  
+    dotActiveBosses.length > 0  
+  ){  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    全ボス撃破  
+    → ボス戦終了  
+  */  
+  
+  dotFinishBossBattle();  
+  
+}  
+  
+  
+/* =====================================================  
+   ボス戦終了  
+===================================================== */  
+  
+function dotFinishBossBattle(){  
+  
+  /*  
+    全員を通常状態へ戻す  
+  */  
+  
+  dotCharacters.forEach(  
+    function(character){  
+  
+      if(  
+        character.defeated ||  
+        character.rescuing  
+      ){  
+        return;  
+      }  
+  
+  
+      dotClearExtras(  
+        character  
+      );  
+  
+  
+      character.action =  
+        "idle";  
+  
+  
+      character.timer =  
+        Math.floor(  
+          dotRandom(120,300)  
+        );  
+  
+  
+      character.img.className =  
+        "dotHolo idle";  
+  
+    }  
+  );  
+  
+  
+  /*  
+    倒れている人を全員救助  
+  */  
+  
+  const defeated =  
+    dotCharacters.filter(  
+      function(character){  
+  
+        return character.defeated;  
+  
+      }  
+    );  
+  
+  
+  defeated.forEach(  
+    function(target){  
+  
+      dotStartRescue(  
+        target  
+      );  
+  
+    }  
+  );  
+  
+  
+  /*  
+    次のボス  
+  */  
+  
+  dotBossTimer =  
+    Math.floor(  
+      dotRandom(900,1800)  
+    );  
+  
+}  
+  
+  
+/* =====================================================  
+   救助開始  
+===================================================== */  
+  
+function dotStartRescue(  
+  target  
+){  
+  
+  if(  
+    !target ||  
+    !target.defeated ||  
+    target.rescuing  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    生存者から2人選ぶ  
+  */  
+  
+  const candidates =  
+    dotCharacters.filter(  
+      function(character){  
+  
+        return(  
+          character !== target &&  
+          !character.defeated &&  
+          !character.rescuing  
+        );  
+  
+      }  
+    );  
+  
+  
+  /*  
+    近い順に並べる  
+  */  
+  
+  candidates.sort(  
+    function(a,b){  
+  
+      const da =  
+        Math.sqrt(  
+          Math.pow(  
+            a.x-target.x,  
+            2  
+          )+  
+          Math.pow(  
+            a.y-target.y,  
+            2  
+          )  
+        );  
+  
+  
+      const db =  
+        Math.sqrt(  
+          Math.pow(  
+            b.x-target.x,  
+            2  
+          )+  
+          Math.pow(  
+            b.y-target.y,  
+            2  
+          )  
+        );  
+  
+  
+      return da-db;  
+  
+    }  
+  );  
+  
+  
+  /*  
+    最大2人  
+  */  
+  
+  const helpers =  
+    candidates.slice(0,2);  
+  
+  
+  /*  
+    誰もいなければ  
+    少し後に再試行  
+  */  
+  
+  if(  
+    helpers.length === 0  
+  ){  
+  
+    setTimeout(  
+      function(){  
+  
+        dotStartRescue(  
+          target  
+        );  
+  
+      },  
+      1000  
+    );  
+  
+    return;  
+  
+  }  
+  
+  
+  target.rescuing =  
+    true;  
+  
+  
+  helpers.forEach(  
+    function(helper){  
+  
+      helper.rescuing =  
+        true;  
+  
+  
+      helper.action =  
+        "rescue";  
+  
+  
+      helper.timer =  
+        999999;  
+  
+  
+      dotClearExtras(  
+        helper  
+      );  
+  
+  
+      helper.img.className =  
+        "dotHolo idle";  
+  
+    }  
+  );  
+  
+  
+  function updateRescue(){  
+  
+    if(  
+      !target.defeated  
+    ){  
+  
+      helpers.forEach(  
+        function(helper){  
+  
+          helper.rescuing =  
+            false;  
+  
+        }  
+      );  
+  
+      return;  
+  
+    }  
+  
+  
+    helpers.forEach(  
+      function(helper,index){  
+  
+        /*  
+          左右から挟む  
+        */  
+  
+        const side =  
+          index === 0  
+          ? -1  
+          : 1;  
+  
+  
+        const targetX =  
+          target.x +  
+          side*5;  
+  
+  
+        const targetY =  
+          target.y;  
+  
+  
+        const dx =  
+          targetX -  
+          helper.x;  
+  
+  
+        const dy =  
+          targetY -  
+          helper.y;  
+  
+  
+        const distance =  
+          Math.sqrt(  
+            dx*dx +  
+            dy*dy  
+          );  
+  
+  
+        if(  
+          distance > 1  
+        ){  
+  
+          helper.x +=  
+            dx/distance*  
+            0.15;  
+  
+  
+          helper.y +=  
+            dy/distance*  
+            0.15;  
+  
+        }  
+  
+  
+        helper.wrapper.style.left =  
+          helper.x+"vw";  
+  
+  
+        helper.wrapper.style.top =  
+          helper.y+"vh";  
+  
+      }  
+    );  
+  
+  
+    /*  
+      2人とも到着  
+    */  
+  
+    const ready =  
+      helpers.every(  
+        function(helper){  
+  
+          const dx =  
+            helper.x -  
+            target.x;  
+  
+  
+          const dy =  
+            helper.y -  
+            target.y;  
+  
+  
+          return(  
+            Math.sqrt(  
+              dx*dx+  
+              dy*dy  
+            ) < 7  
+          );  
+  
+        }  
+      );  
+  
+  
+    if(ready){  
+  
+      /*  
+        ハート  
+      */  
+  
+      helpers.forEach(  
+        function(helper){  
+  
+          dotAddHeart(  
+            helper  
+          );  
+  
+        }  
+      );  
+  
+  
+      /*  
+        少し待って復活  
+      */  
+  
+      setTimeout(  
+        function(){  
+  
+          dotReviveCharacter(  
+            target  
+          );  
+  
+  
+          helpers.forEach(  
+            function(helper){  
+  
+              helper.rescuing =  
+                false;  
+  
+  
+              helper.action =  
+                "idle";  
+  
+  
+              helper.timer =  
+                Math.floor(  
+                  dotRandom(120,300)  
+                );  
+  
+  
+              helper.img.className =  
+                "dotHolo idle";  
+  
+            }  
+          );  
+  
+  
+        },  
+        1000  
+      );  
+  
+  
+      return;  
+  
+    }  
+  
+  
+    requestAnimationFrame(  
+      updateRescue  
+    );  
+  
+  }  
+  
+  
+  updateRescue();  
+  
+}  
+  
+  
+/* =====================================================  
+   復活  
+===================================================== */  
+  
+function dotReviveCharacter(  
+  character  
+){  
+  
+  if(  
+    !character ||  
+    !character.defeated  
+  ){  
+    return;  
+  }  
+  
+  
+  character.defeated =  
+    false;  
+  
+  
+  character.rescuing =  
+    false;  
+  
+  
+  character.action =  
+    "idle";  
+  
+  
+  character.timer =  
+    Math.floor(  
+      dotRandom(120,300)  
+    );  
+  
+  
+  character.img.style.transform =  
+    "";  
+  
+  
+  character.img.style.transformOrigin =  
+    "";  
+  
+  
+  character.img.className =  
+    "dotHolo idle";  
+  
+}  
+  
+  
+/* =====================================================  
+   ハート  
+===================================================== */  
+  
+function dotAddHeart(  
+  character  
+){  
+  
+  const heart =  
+    document.createElement("div");  
+  
+  
+  heart.textContent =  
+    "💕";  
+  
+  
+  heart.style.position =  
+    "absolute";  
+  
+  
+  heart.style.left =  
+    "25px";  
+  
+  
+  heart.style.top =  
+    "-20px";  
+  
+  
+  heart.style.fontSize =  
+    "35px";  
+  
+  
+  heart.style.zIndex =  
+    "99999";  
+  
+  
+  heart.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    heart  
+  );  
+  
+  
+  let y =  
+    -20;  
+  
+  
+  function moveHeart(){  
+  
+    y -= 0.5;  
+  
+  
+    heart.style.top =  
+      y+"px";  
+  
+  
+    if(  
+      y < -55  
+    ){  
+  
+      heart.remove();  
+  
+      return;  
+  
+    }  
+  
+  
+    requestAnimationFrame(  
+      moveHeart  
+    );  
+  
+  }  
+  
+  
+  moveHeart();  
+  
+}  
+  
+  
+/* =====================================================  
+   通常行動  
+===================================================== */  
+  
+function dotChooseAction(  
+  character  
+){  
+  
+  /*  
+    倒れている  
+  */  
+  
+  if(  
+    character.defeated  
+  ){  
+  
+    character.action =  
+      "defeated";  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    救助中  
+  */  
+  
+  if(  
+    character.rescuing  
+  ){  
+  
+    character.action =  
+      "rescue";  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    ボス戦  
+  */  
+  
+  if(  
+    dotBossBattleActive()  
+  ){  
+  
+    dotSetShootMode(  
+      character  
+    );  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    古い演出を必ず消す  
+  */  
+  
+  dotClearExtras(  
+    character  
+  );  
+  
+  
+  /*  
+    追いかけっこ中  
+  */  
+  
+  if(  
+    character.chasing  
+  ){  
+  
+    character.action =  
+      "chase";  
+  
+    character.timer =  
+      999999;  
+  
+    character.img.className =  
+      "dotHolo run";  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    通常行動  
+  */  
+  
+  const action =  
+    dotActions[  
+      Math.floor(  
+        Math.random() *  
+        dotActions.length  
+      )  
+    ];  
+  
+  
+  character.action =  
+    action;  
+  
+  
+  character.timer =  
+    Math.floor(  
+      dotRandom(  
+        120,  
+        420  
+      )  
+    );  
+  
+  
+  character.img.className =  
+    "dotHolo " +  
+    action;  
+  
+  
+  /*  
+    歩く方向  
+  */  
+  
+  if(  
+    action === "walk"  
+  ){  
+  
+    character.direction =  
+      Math.random() < .5  
+      ? -1  
+      : 1;  
+  
+  }  
+  
+  
+  /*  
+    🍙  
+  */  
+  
+  if(  
+    action === "eat"  
+  ){  
+  
+    dotAddFood(  
+      character  
+    );  
+  
+  }  
+  
+  
+  /*  
+    💧  
+  */  
+  
+  if(  
+    action === "cry"  
+  ){  
+  
+    dotAddTears(  
+      character  
+    );  
+  
+  }  
+  
+  
+  /*  
+    Zzz  
+  */  
+  
+  if(  
+    action === "sleep"  
+  ){  
+  
+    dotAddSleep(  
+      character  
+    );  
+  
+  }  
+  
+}  
+  
+  
+/* =====================================================  
+   ドット移動  
+===================================================== */  
+  
+function dotUpdate(  
+  character  
+){  
+  
+  /*  
+    倒れている  
+  */  
+  
+  if(  
+    character.defeated  
+  ){  
+  
+    requestAnimationFrame(  
+      function(){  
+  
+        dotUpdate(  
+          character  
+        );  
+  
+      }  
+    );  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    救助中  
+  */  
+  
+  if(  
+    character.rescuing  
+  ){  
+  
+    requestAnimationFrame(  
+      function(){  
+  
+        dotUpdate(  
+          character  
+        );  
+  
+      }  
+    );  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    ボス戦  
+  */  
+  
+  if(  
+    character.action === "shoot" &&  
+    dotBossBattleActive()  
+  ){  
+  
+    /*  
+      ランダム間隔で撃つ  
+    */  
+  
+    character.shootCooldown--;  
+  
+  
+    if(  
+      character.shootCooldown <= 0  
+    ){  
+  
+      dotShootBoss(  
+        character  
+      );  
+  
+  
+      character.shootCooldown =  
+        Math.floor(  
+          dotRandom(12,35)  
+        );  
+  
+    }  
+  
+  
+    requestAnimationFrame(  
+      function(){  
+  
+        dotUpdate(  
+          character  
+        );  
+  
+      }  
+    );  
+  
+    return;  
+  
+  }  
+  
+  
+  /*  
+    追いかけっこ  
+  */  
+  
+  if(  
+    character.action === "chase"  
+  ){  
+  
+    if(  
+      character.chaseTarget &&  
+      !character.chaseTarget.defeated  
+    ){  
+  
+      const target =  
+        character.chaseTarget;  
+  
+  
+      const dx =  
+        target.x -  
+        character.x;  
+  
+  
+      const dy =  
+        target.y -  
+        character.y;  
+  
+  
+      const distance =  
+        Math.sqrt(  
+          dx*dx+  
+          dy*dy  
+        );  
+  
+  
+      if(  
+        distance > 2  
+      ){  
+  
+        character.x +=  
+          dx/distance*  
+          character.speed*  
+          1.5;  
+  
+  
+        character.y +=  
+          dy/distance*  
+          character.speed*  
+          1.5;  
+  
+      }  
+  
+    }  
+  
+  }  
+  
+  
+  /*  
+    通常タイマー  
+  */  
+  
+  character.timer--;  
+  
+  
+  /*  
+    横移動  
+  */  
+  
+  if(  
+    character.action === "walk" ||  
+    character.action === "run"  
+  ){  
+  
+    character.x +=  
+      character.speed *  
+      character.direction *  
+      (  
+        character.action === "run"  
+        ? 2  
+        : 1  
+      );  
+  
+  
+    if(  
+      character.x > 94  
+    ){  
+  
+      character.x =  
+        94;  
+  
+      character.direction =  
+        -1;  
+  
+    }  
+  
+  
+    if(  
+      character.x < 2  
+    ){  
+  
+      character.x =  
+        2;  
+  
+      character.direction =  
+        1;  
+  
+    }  
+  
+  }  
+  
+  
+  /*  
+    ジャンプ  
+  */  
+  
+  if(  
+    character.action === "jump"  
+  ){  
+  
+    character.y +=  
+      Math.sin(  
+        character.timer /  
+        60 *  
+        Math.PI*2  
+      ) *  
+      0.08;  
+  
+  }  
+  
+  
+  /*  
+    爆発  
+  */  
+  
+  if(  
+    character.action === "explode" &&  
+    !character.explosion  
+  ){  
+  
+    dotAddExplosion(  
+      character  
+    );  
+  
+  }  
+  
+  
+  /*  
+    回復  
+  */  
+  
+  if(  
+    character.action === "heal" &&  
+    !character.healEffect  
+  ){  
+  
+    dotAddHeal(  
+      character  
+    );  
+  
+  }  
+  
+  
+  /*  
+    サッカー  
+  */  
+  
+  if(  
+    character.action === "soccer" &&  
+    !character.ball  
+  ){  
+  
+    dotAddSoccer(  
+      character  
+    );  
+  
+  }  
+  
+  
+  /*  
+    位置反映  
+  */  
+  
+  character.wrapper.style.left =  
+    character.x+"vw";  
+  
+  
+  character.wrapper.style.top =  
+    character.y+"vh";  
+  
+  
+  /*  
+    行動終了  
+  */  
+  
+  if(  
+    character.timer <= 0  
+  ){  
+  
+    dotClearExtras(  
+      character  
+    );  
+  
+  
+    character.chasing =  
+      false;  
+  
+  
+    character.chaseTarget =  
+      null;  
+  
+  
+    dotChooseAction(  
+      character  
+    );  
+  
+  }  
+  
+  
+  requestAnimationFrame(  
+    function(){  
+  
+      dotUpdate(  
+        character  
+      );  
+  
+    }  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   🍙  
+===================================================== */  
+  
+function dotAddFood(  
+  character  
+){  
+  
+  const food =  
+    document.createElement("div");  
+  
+  
+  food.className =  
+    "dotFood";  
+  
+  
+  food.textContent =  
+    "🍙";  
+  
+  
+  food.style.position =  
+    "absolute";  
+  
+  
+  food.style.left =  
+    "27px";  
+  
+  
+  food.style.top =  
+    "12px";  
+  
+  
+  food.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    food  
+  );  
+  
+  
+  character.food =  
+    food;  
+  
+}  
+  
+  
+/* =====================================================  
+   💧  
+===================================================== */  
+  
+function dotAddTears(  
+  character  
+){  
+  
+  const tears =  
+    document.createElement("div");  
+  
+  
+  tears.className =  
+    "dotTears";  
+  
+  
+  tears.textContent =  
+    "💧";  
+  
+  
+  tears.style.position =  
+    "absolute";  
+  
+  
+  tears.style.left =  
+    "25px";  
+  
+  
+  tears.style.top =  
+    "20px";  
+  
+  
+  tears.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    tears  
+  );  
+  
+  
+  character.tears =  
+    tears;  
+  
+}  
+  
+  
+/* =====================================================  
+   Zzz  
+===================================================== */  
+  
+function dotAddSleep(  
+  character  
+){  
+  
+  const z =  
+    document.createElement("div");  
+  
+  
+  z.className =  
+    "dotSleepMark";  
+  
+  
+  z.textContent =  
+    "Zzz";  
+  
+  
+  z.style.position =  
+    "absolute";  
+  
+  
+  z.style.left =  
+    "28px";  
+  
+  
+  z.style.top =  
+    "-5px";  
+  
+  
+  z.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    z  
+  );  
+  
+  
+  character.sleepMark =  
+    z;  
+  
+}  
+  
+  
+/* =====================================================  
+   💥  
+===================================================== */  
+  
+function dotAddExplosion(  
+  character  
+){  
+  
+  const explosion =  
+    document.createElement("div");  
+  
+  
+  explosion.className =  
+    "dotExplosion";  
+  
+  
+  explosion.textContent =  
+    "💥";  
+  
+  
+  explosion.style.position =  
+    "absolute";  
+  
+  
+  explosion.style.left =  
+    "20px";  
+  
+  
+  explosion.style.top =  
+    "-5px";  
+  
+  
+  explosion.style.fontSize =  
+    "45px";  
+  
+  
+  explosion.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    explosion  
+  );  
+  
+  
+  character.explosion =  
+    explosion;  
+  
+}  
+  
+  
+/* =====================================================  
+   💕回復  
+===================================================== */  
+  
+function dotAddHeal(  
+  character  
+){  
+  
+  const heal =  
+    document.createElement("div");  
+  
+  
+  heal.className =  
+    "dotHeal";  
+  
+  
+  heal.textContent =  
+    "💕";  
+  
+  
+  heal.style.position =  
+    "absolute";  
+  
+  
+  heal.style.left =  
+    "20px";  
+  
+  
+  heal.style.top =  
+    "-10px";  
+  
+  
+  heal.style.fontSize =  
+    "35px";  
+  
+  
+  heal.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    heal  
+  );  
+  
+  
+  character.healEffect =  
+    heal;  
+  
+}  
+  
+  
+/* =====================================================  
+   ⚽  
+===================================================== */  
+  
+function dotAddSoccer(  
+  character  
+){  
+  
+  const ball =  
+    document.createElement("div");  
+  
+  
+  ball.className =  
+    "dotSoccer";  
+  
+  
+  ball.textContent =  
+    "⚽";  
+  
+  
+  ball.style.position =  
+    "absolute";  
+  
+  
+  ball.style.left =  
+    "30px";  
+  
+  
+  ball.style.top =  
+    "25px";  
+  
+  
+  ball.style.fontSize =  
+    "28px";  
+  
+  
+  ball.style.pointerEvents =  
+    "none";  
+  
+  
+  character.wrapper.appendChild(  
+    ball  
+  );  
+  
+  
+  character.ball =  
+    ball;  
+  
+}  
+  
+  
+/* =====================================================  
+   追加物を全部消す  
+===================================================== */  
+  
+function dotClearExtras(  
+  character  
+){  
+  
+  if(  
+    character.bullet  
+  ){  
+  
+    character.bullet.remove();  
+  
+    character.bullet =  
+      null;  
+  
+  }  
+  
+  
+  if(  
+    character.explosion  
+  ){  
+  
+    character.explosion.remove();  
+  
+    character.explosion =  
+      null;  
+  
+  }  
+  
+  
+  if(  
+    character.healEffect  
+  ){  
+  
+    character.healEffect.remove();  
+  
+    character.healEffect =  
+      null;  
+  
+  }  
+  
+  
+  if(  
+    character.ball  
+  ){  
+  
+    character.ball.remove();  
+  
+    character.ball =  
+      null;  
+  
+  }  
+  
+  
+  if(  
+    character.food  
+  ){  
+  
+    character.food.remove();  
+  
+    character.food =  
+      null;  
+  
+  }  
+  
+  
+  if(  
+    character.tears  
+  ){  
+  
+    character.tears.remove();  
+  
+    character.tears =  
+      null;  
+  
+  }  
+  
+  
+  if(  
+    character.sleepMark  
+  ){  
+  
+    character.sleepMark.remove();  
+  
+    character.sleepMark =  
+      null;  
+  
+  }  
+  
+}  
+  
+  
+/* =====================================================  
+   追いかけっこ開始  
+===================================================== */  
+  
+function dotStartChase(){  
+  
+  /*  
+    ボス戦中はやらない  
+  */  
+  
+  if(  
+    dotBossBattleActive()  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    救助中は除外  
+  */  
+  
+  const available =  
+    dotCharacters.filter(  
+      function(character){  
+  
+        return(  
+          !character.defeated &&  
+          !character.rescuing &&  
+          !character.chasing  
+        );  
+  
+      }  
+    );  
+  
+  
+  if(  
+    available.length < 2  
+  ){  
+    return;  
+  }  
+  
+  
+  /*  
+    ランダムに2～4人  
+  */  
+  
+  const count =  
+    Math.min(  
+      available.length,  
+      Math.floor(  
+        dotRandom(2,5)  
+      )  
+    );  
+  
+  
+  /*  
+    シャッフル  
+  */  
+  
+  for(  
+    let i=available.length-1;  
+    i>0;  
+    i--  
+  ){  
+  
+    const j =  
+      Math.floor(  
+        Math.random()*(i+1)  
+      );  
+  
+  
+    [  
+      available[i],  
+      available[j]  
+    ] =  
+    [  
+      available[j],  
+      available[i]  
+    ];  
+  
+  }  
+  
+  
+  const group =  
+    available.slice(  
+      0,  
+      count  
+    );  
+  
+  
+  /*  
+    輪になって追いかける  
+  */  
+  
+  group.forEach(  
+    function(character,index){  
+  
+      character.chasing =  
+        true;  
+  
+  
+      character.action =  
+        "chase";  
+  
+  
+      character.timer =  
+        999999;  
+  
+  
+      character.img.className =  
+        "dotHolo run";  
+  
+  
+      /*  
+        次の人を追う  
+      */  
+  
+      character.chaseTarget =  
+        group[  
+          (index+1) %  
+          group.length  
+        ];  
+  
+    }  
+  );  
+  
+  
+  /*  
+    追いかけっこの時間  
+  */  
+  
+  setTimeout(  
+    function(){  
+  
+      group.forEach(  
+        function(character){  
+  
+          if(  
+            !character.defeated &&  
+            !character.rescuing  
+          ){  
+  
+            character.chasing =  
+              false;  
+  
+  
+            character.chaseTarget =  
+              null;  
+  
+  
+            character.timer =  
+              Math.floor(  
+                dotRandom(120,300)  
+              );  
+  
+  
+            character.action =  
+              "idle";  
+  
+  
+            character.img.className =  
+              "dotHolo idle";  
+  
+          }  
+  
+        }  
+      );  
+  
+    },  
+    Math.floor(  
+      dotRandom(3000,8000)  
+    )  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   追いかけっこシステム  
+===================================================== */  
+  
+function dotChaseSystem(){  
+  
+  /*  
+    ボス戦中はタイマーを進めない  
+  */  
+  
+  if(  
+    !dotBossBattleActive()  
+  ){  
+  
+    dotChaseTimer--;  
+  
+  
+    if(  
+      dotChaseTimer <= 0  
+    ){  
+  
+      dotStartChase();  
+  
+  
+      dotChaseTimer =  
+        Math.floor(  
+          dotRandom(600,1800)  
+        );  
+  
+    }  
+  
+  }  
+  
+  
+  requestAnimationFrame(  
+    dotChaseSystem  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   シャッフル  
+===================================================== */  
+  
+function shuffleArray(  
+  array  
+){  
+  
+  const a =  
+    [...array];  
+  
+  
+  for(  
+    let i=a.length-1;  
+    i>0;  
+    i--  
+  ){  
+  
+    const j =  
+      Math.floor(  
+        Math.random()*(i+1)  
+      );  
+  
+  
+    [  
+      a[i],  
+      a[j]  
+    ] =  
+    [  
+      a[j],  
+      a[i]  
+    ];  
+  
+  }  
+  
+  
+  return a;  
+  
+}  
+  
+  
+/* =====================================================  
+   キャラクター作成  
+===================================================== */  
+  
+function createDotHolo(  
+  data,  
+  index  
+){  
+  
+  const wrapper =  
+    document.createElement("div");  
+  
+  
+  wrapper.style.position =  
+    "absolute";  
+  
+  
+  wrapper.style.left =  
+    dotRandom(5,90)+"vw";  
+  
+  
+  wrapper.style.top =  
+    dotRandom(15,85)+"vh";  
+  
+  
+  const img =  
+    document.createElement("img");  
+  
+  
+  img.className =  
+    "dotHolo idle";  
+  
+  
+  img.src =  
+    "ドットホロメン/" +  
+    data.image;  
+  
+  
+  img.alt =  
+    data.name;  
+  
+  
+  img.draggable =  
+    false;  
+  
+  
+  wrapper.appendChild(  
+    img  
+  );  
+  
+  
+  dotHoloWorld.appendChild(  
+    wrapper  
+  );  
+  
+  
+  /*  
+    キャラクター情報  
+  */  
+  
+  const character = {  
+  
+    wrapper:wrapper,  
+  
+    img:img,  
+  
+    x:parseFloat(  
+      wrapper.style.left  
+    ),  
+  
+    y:parseFloat(  
+      wrapper.style.top  
+    ),  
+  
+    action:"idle",  
+  
+    direction:  
+      Math.random()<0.5  
+      ? -1  
+      : 1,  
+  
+    speed:  
+      dotRandom(  
+        0.04,  
+        0.12  
+      ),  
+  
+    timer:0,  
+  
+    index:index,  
+  
+    /*  
+      状態  
+    */  
+  
+    defeated:false,  
+  
+    rescuing:false,  
+  
+    chasing:false,  
+  
+    chaseTarget:null,  
+  
+    /*  
+      エフェクト  
+    */  
+  
+    bullet:null,  
+  
+    explosion:null,  
+  
+    healEffect:null,  
+  
+    ball:null,  
+  
+    food:null,  
+  
+    tears:null,  
+  
+    sleepMark:null,  
+  
+    /*  
+      射撃  
+    */  
+  
+    shootCooldown:  
+      Math.floor(  
+        dotRandom(10,40)  
+      )  
+  
+  };  
+  
+  
+  dotCharacters.push(  
+    character  
+  );  
+  
+  
+  dotChooseAction(  
+    character  
+  );  
+  
+  
+  requestAnimationFrame(  
+    function(){  
+  
+      dotUpdate(  
+        character  
+      );  
+  
+    }  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   ボスシステム  
+===================================================== */  
+  
+function dotBossSystem(){  
+  
+  /*  
+    ボスがいない時だけ  
+    出現タイマーを進める  
+  */  
+  
+  if(  
+    !dotBossBattleActive()  
+  ){  
+  
+    dotBossTimer--;  
+  
+  
+    if(  
+      dotBossTimer <= 0  
+    ){  
+  
+      dotSpawnBoss();  
+  
+    }  
+  
+  }  
+  
+  
+  /*  
+    ボスを全員動かす  
+  */  
+  
+  dotBossUpdate();  
+  
+  
+  /*  
+    HPが0になったボスを処理  
+  */  
+  
+  dotActiveBosses.forEach(  
+    function(boss){  
+  
+      if(  
+        !boss.dead &&  
+        boss.hp <= 0  
+      ){  
+  
+        dotDefeatSingleBoss(  
+          boss  
+        );  
+  
+      }  
+  
+    }  
+  );  
+  
+  
+  requestAnimationFrame(  
+    dotBossSystem  
+  );  
+  
+}  
+  
+  
+/* =====================================================  
+   キャラクター生成  
+===================================================== */  
+  
+const selectedDots =  
+  shuffleArray(  
+    dotHolomembers  
+  ).slice(  
+    0,  
+    15  
+  );  
+  
+  
+selectedDots.forEach(  
+  function(member,index){  
+  
+    createDotHolo(  
+      member,  
+      index  
+    );  
+  
+  }  
+);  
+  
+  
+/* =====================================================  
+   システム開始  
+===================================================== */  
+  
+dotBossSystem();  
+  
+dotChaseSystem();  
+
+
 </script>  
   
 </body>  
