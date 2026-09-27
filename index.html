@@ -5947,7 +5947,269 @@ function dotUpdate(
   character.wrapper.style.top =  
     character.y+"vh";  
   
-  
+  dotCharacterCollision(character)
+character.x =
+  Math.max(
+    2,
+    Math.min(
+      94,
+      character.x
+    )
+  );
+
+
+character.y =
+  Math.max(
+    10,
+    Math.min(
+      88,
+      character.y
+    )
+  );
+/* =====================================================
+   ホロメン同士の衝突・押し合い
+===================================================== */
+
+
+function dotCharacterCollision(character){
+
+
+  if(!dotCharacters){
+    return;
+  }
+
+
+  if(character.defeated){
+    return;
+  }
+
+
+  dotCharacters.forEach(function(other){
+
+
+    if(other === character){
+      return;
+    }
+
+
+    if(other.defeated){
+      return;
+    }
+
+
+    /*
+      距離
+    */
+
+
+    const dx =
+      other.x - character.x;
+
+
+    const dy =
+      other.y - character.y;
+
+
+    const distance =
+      Math.sqrt(
+        dx * dx +
+        dy * dy
+      );
+
+
+    /*
+      この数字を大きくすると
+      もっと離れて立つ
+    */
+
+
+    const minDistance = 7;
+
+
+    if(distance >= minDistance){
+      return;
+    }
+
+
+    /*
+      完全に同じ場所になった場合
+    */
+
+
+    if(distance === 0){
+
+
+      character.x -= 0.5;
+      other.x += 0.5;
+
+
+      return;
+
+
+    }
+
+
+    /*
+      重なった分だけ離す
+    */
+
+
+    const push =
+      (minDistance - distance) / 2;
+
+
+    const nx =
+      dx / distance;
+
+
+    const ny =
+      dy / distance;
+
+
+    /*
+      基本は左右方向に押す
+    */
+
+
+    character.x -=
+      nx * push;
+
+
+    character.y -=
+      ny * push;
+
+
+    other.x +=
+      nx * push;
+
+
+    other.y +=
+      ny * push;
+
+
+
+
+    /*
+      進行方向を比較
+    */
+
+
+    const characterPower =
+      Math.abs(
+        character.speed
+      );
+
+
+    const otherPower =
+      Math.abs(
+        other.speed
+      );
+
+
+
+
+    /*
+      歩いている・走っている側を強い側として扱う
+    */
+
+
+    const characterMoving =
+      character.action === "walk" ||
+      character.action === "run" ||
+      character.action === "shoot";
+
+
+    const otherMoving =
+      other.action === "walk" ||
+      other.action === "run" ||
+      other.action === "shoot";
+
+
+
+
+    /*
+      character側が動いている
+    */
+
+
+    if(characterMoving && !otherMoving){
+
+
+      other.x +=
+        character.direction *
+        0.35;
+
+
+      return;
+
+
+    }
+
+
+
+
+    /*
+      other側が動いている
+    */
+
+
+    if(!characterMoving && otherMoving){
+
+
+      character.x +=
+        other.direction *
+        0.35;
+
+
+      return;
+
+
+    }
+
+
+
+
+    /*
+      両方動いている場合
+      速度が大きい方が押す
+    */
+
+
+    if(
+      characterMoving &&
+      otherMoving
+    ){
+
+
+      if(
+        characterPower >=
+        otherPower
+      ){
+
+
+        other.x +=
+          character.direction *
+          0.25;
+
+
+      }else{
+
+
+        character.x +=
+          other.direction *
+          0.25;
+
+
+      }
+
+
+    }
+
+
+  });
+
+
+}
   /*  
     行動終了  
   */  
