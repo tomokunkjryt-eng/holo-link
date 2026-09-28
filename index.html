@@ -3585,111 +3585,7 @@ function dotDistance(a,b){
 }  
   
   
-/* =====================================================  
-   ボスHP  
-===================================================== */  
-  
-function dotBossShowHP(){  
-  
-  let hp =  
-    document.getElementById("dotBossHP");  
-  
-  
-  if(dotActiveBosses.length === 0){  
-  
-    if(hp){  
-      hp.remove();  
-    }  
-  
-    return;  
-  
-  }  
-  
-  
-  if(!hp){  
-  
-    hp =  
-      document.createElement("div");  
-  
-    hp.id =  
-      "dotBossHP";  
-  
-    hp.style.position =  
-      "fixed";  
-  
-    hp.style.top =  
-      "10px";  
-  
-    hp.style.left =  
-      "50%";  
-  
-    hp.style.transform =  
-      "translateX(-50%)";  
-  
-    hp.style.zIndex =  
-      "99999";  
-  
-    hp.style.background =  
-      "rgba(0,0,0,.75)";  
-  
-    hp.style.color =  
-      "white";  
-  
-    hp.style.padding =  
-      "7px 16px";  
-  
-    hp.style.borderRadius =  
-      "10px";  
-  
-    hp.style.fontWeight =  
-      "bold";  
-  
-    hp.style.fontSize =  
-      "16px";  
-  
-    hp.style.pointerEvents =  
-      "none";  
-  
-    dotHoloWorld.appendChild(hp);  
-  
-  }  
-  
-  
-  const totalHP =  
-    dotActiveBosses.reduce(  
-      function(total,boss){  
-  
-        return total +  
-          Math.max(0,boss.hp);  
-  
-      },  
-      0  
-    );  
-  
-  
-  const totalMaxHP =  
-    dotActiveBosses.reduce(  
-      function(total,boss){  
-  
-        return total +  
-          boss.maxHp;  
-  
-      },  
-      0  
-    );  
-  
-  
-  hp.textContent =  
-    "BOSS × " +  
-    dotActiveBosses.length +  
-    "　HP : " +  
-    totalHP +  
-    " / " +  
-    totalMaxHP;  
-  
-}  
-  
-  
+
 /* =====================================================  
    最も近いボス  
 ===================================================== */  
@@ -3932,7 +3828,7 @@ function dotSpawnBoss(){
   });  
   
   
-  dotBossShowHP();  
+  
   
 }  
   
@@ -4440,7 +4336,7 @@ function dotDefeatSingleBoss(boss){
   }  
   
   
-  dotBossShowHP();  
+  
   
   
   setTimeout(function(){  
@@ -4580,7 +4476,7 @@ function dotBossSplit(original){
   }  
   
   
-  dotBossShowHP();  
+  
   
 }  
   
@@ -5895,7 +5791,7 @@ function dotShootBoss(character){
           damage;  
   
   
-        dotBossShowHP();  
+        
   
   
         if(  
